@@ -1,94 +1,66 @@
-
+<!--
+https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-not-working-as-documented
+https://bl.ocks.org/mbostock/4699541
+https://bl.ocks.org/mbostock/4090848
+https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c
+https://raw.githubusercontent.com/deldersveld/topojson/master/countries/us-states/OK-40-oklahoma-counties.json
+https://bl.ocks.org/mbostock/raw/5663666/
+http://bl.ocks.org/darrenjaworski/5874214 ***
+https://bl.ocks.org/gka/f2aabf4a516e16a5190f25fd1923406f ***
+https://beta.observablehq.com/@mbostock/d3-choropleth
+https://beta.observablehq.com/@mbostock/d3-bubble-map
+http://duspviz.mit.edu/d3-workshop/mapping-data-with-d3/
+http://bl.ocks.org/phil-pedruco/7745589 ***
+https://anthonyskelton.com/2016/d3-js-earthquake-visualizations/
+https://hackernoon.com/d3-js-and-google-maps-api-in-10-easy-steps-4f258323525b
+https://bost.ocks.org/mike/leaflet/
+http://bl.ocks.org/d3noob/9267535
+-->
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Point on a map D3</title>
+<svg width="960" height="600" stroke-linejoin="round" stroke-linecap="round">
+  <defs>
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="5"></feGaussianBlur>
+    </filter>
+  </defs>
+</svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script>
 
-<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-<script src="http://d3js.org/topojson.v1.min.js"></script>
+var svg = d3.select("svg");
 
-<style type="text/css">
-	.feature {
-		fill: none;
-		stroke: grey;
-		stroke-width: 1px;
-  		stroke-linejoin: round;
-	}
-	.mesh {
-		fill: none;
-  		stroke: lightgrey;
-  		stroke-width: 2px;
-  		stroke-linejoin: round;
-	}
-	h1 {
-		font-family: sans-serif;
-	}
-</style>
-</head>
-<body>
-	<h1>Point in the north west part of SF</h1>
+var defs = svg.select("defs");
 
+var path = d3.geoPath();
 
-<script type="text/javascript">
+d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
+  if (error) throw error;
 
-var width = 950,
-    height = 550;
+  defs.append("path")
+      .attr("id", "nation")
+      .attr("d", path(topojson.feature(us, us.objects.nation)));
 
-// set projection
-var projection = d3.geo.mercator();
+  svg.append("use")
+      .attr("xlink:href", "#nation")
+      .attr("fill-opacity", 0.2)
+      .attr("filter", "url(#blur)");
 
-// create path variable
-var path = d3.geo.path()
-    .projection(projection);
+  svg.append("use")
+      .attr("xlink:href", "#nation")
+      .attr("fill", "#fff");
 
+  svg.append("path")
+      .attr("fill", "none")
+      .attr("stroke", "#777")
+      .attr("stroke-width", 0.35)
+      .attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
 
-d3.json("us.json", function(error, topo) { console.log(topo);
-
-  	states = topojson.feature(topo, topo.objects.states).features
-
-  	// set projection parameters
-  	projection
-      .scale(1000)
-      .center([-106, 37.5])
-
-    // create svg variable
-    var svg = d3.select("body").append("svg")
-    				.attr("width", width)
-    				.attr("height", height);
-
-    // points
-    aa = [-122.490402, 37.786453];
-	bb = [-122.389809, 37.72728];
-
-	console.log(projection(aa),projection(bb));
-
-	// add states from topojson
-	svg.selectAll("path")
-      .data(states).enter()
-      .append("path")
-      .attr("class", "feature")
-      .style("fill", "steelblue")
-      .attr("d", path);
-
-    // put boarder around states
-  	svg.append("path")
-      .datum(topojson.mesh(topo, topo.objects.states, function(a, b) { return a !== b; }))
-      .attr("class", "mesh")
-      .attr("d", path);
-
-    // add circles to svg
-    svg.selectAll("circle")
-		.data([aa,bb]).enter()
-		.append("circle")
-		.attr("cx", function (d) { console.log(projection(d)); return projection(d)[0]; })
-		.attr("cy", function (d) { return projection(d)[1]; })
-		.attr("r", "8px")
-		.attr("fill", "red")
-
+  svg.append("path")
+      .attr("fill", "none")
+      .attr("stroke", "#777")
+      .attr("stroke-width", 0.70)
+      .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
 });
 
 </script>
-
-</body>
-</html>
