@@ -1,5 +1,5 @@
 <!--
-https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-not-working-as-documented
+
 https://bl.ocks.org/mbostock/4699541
 https://bl.ocks.org/mbostock/4090848
 https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c
@@ -15,52 +15,110 @@ https://anthonyskelton.com/2016/d3-js-earthquake-visualizations/
 https://hackernoon.com/d3-js-and-google-maps-api-in-10-easy-steps-4f258323525b
 https://bost.ocks.org/mike/leaflet/
 http://bl.ocks.org/d3noob/9267535
+http://datamaps.github.io/
+
+uses topojson instead of geojson for better performance and ease of use:
+https://bl.ocks.org/mbostock/5545680
+topojson data: https://github.com/topojson/us-atlas
+
+tool to find coordinates:
+https://mynasadata.larc.nasa.gov/latitudelongitude-finder/
+
+us-atlas already projected:
+https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-not-working-as-documented
 -->
 <!DOCTYPE html>
 <svg width="960" height="600" stroke-linejoin="round" stroke-linecap="round">
-  <defs>
-    <filter id="blur">
-      <feGaussianBlur stdDeviation="5"></feGaussianBlur>
-    </filter>
-  </defs>
+   <defs>
+      <filter id="blur">
+         <feGaussianBlur stdDeviation="5"></feGaussianBlur>
+      </filter>
+   </defs>
 </svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 <script>
+var center = [35.467560, -97.516428]
 
-var svg = d3.select("svg");
+var svg = d3.select("svg")
+var g = svg.append("g")
 
-var defs = svg.select("defs");
+// https://developer.mozilla.org/en-US/docs/Web/SVG/Element/defs
+// https://www.sarasoueidan.com/blog/structuring-grouping-referencing-in-svg/
+// select the svg defs element
+var defs = svg.select("defs")
 
-var path = d3.geoPath();
+// generate paths from data
+// no need to project
+// us-atlas comes already projected:
+// https://groups.google.com/forum/#!topic/d3-js/DU_Od6w2GJU
 
-d3.json("https://d3js.org/us-10m.v1.json", function(error, us) {
-  if (error) throw error;
+var path = d3.geoPath()
+//console.log(Object.keys(path))
 
-  defs.append("path")
-      .attr("id", "nation")
-      .attr("d", path(topojson.feature(us, us.objects.nation)));
 
-  svg.append("use")
-      .attr("xlink:href", "#nation")
-      .attr("fill-opacity", 0.2)
-      .attr("filter", "url(#blur)");
+d3.json("https://unpkg.com/us-atlas@1/us/10m.json", function(error, us) {
+   console.log(us)
+   //us.transform = {"scale":2000}
+   if (error) throw error
+/*
+   // define the defs element
+   // this will allow for re-use of the country outline to allow for blur
+   defs.append("path")
+   .attr("id", "nation")
+   .attr("d", path(topojson.feature(us, us.objects.nation)))
 
-  svg.append("use")
-      .attr("xlink:href", "#nation")
-      .attr("fill", "#fff");
+   // blurred country outline
+   svg.append("use")
+   .attr("xlink:href", "#nation")
+   .attr("fill-opacity", 0.2)
+   .attr("filter", "url(#blur)")
 
-  svg.append("path")
-      .attr("fill", "none")
-      .attr("stroke", "#777")
-      .attr("stroke-width", 0.35)
-      .attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
+   // white country outline
+   svg.append("use")
+   .attr("xlink:href", "#nation")
+   .attr("fill", "#fff")
 
-  svg.append("path")
-      .attr("fill", "none")
-      .attr("stroke", "#777")
-      .attr("stroke-width", 0.70)
-      .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })));
+   // state outlines
+   svg.append("path")
+   .attr("fill", "none")
+   .attr("stroke", "#777")
+   .attr("stroke-width", 0.70)
+   .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })))
+
+   // county outlines
+   svg.append("path")
+   .attr("fill", "none")
+   .attr("stroke", "#777")
+   .attr("stroke-width", 0.35)
+   .attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
+*/
+svg.append("path")
+.attr("id", "nation")
+.attr("d", path(topojson.feature(us, us.objects.nation)))
+.attr("fill", "none")
+.attr("stroke", "#777")
+.attr("stroke-width", 0.70)
+.attr("scale",2000)
+
+// state outlines
+svg.append("path")
+.attr("fill", "none")
+.attr("stroke", "#777")
+.attr("stroke-width", 0.70)
+.attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })))
+
+// county outlines
+svg.append("path")
+.attr("fill", "none")
+.attr("stroke", "#777")
+.attr("stroke-width", 0.35)
+.attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
+var scale = 2000
+g.transition()
+   .duration(750)
+      .style("stroke-width", 1.5 / 2000 + "px")
+      .attr("transform", "scale("+scale+")");
 });
 
 </script>
