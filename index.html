@@ -39,7 +39,8 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     var w = 960;
     var h = 500;
 
-
+    var projection = d3.geoAlbersUSA()
+                       .translate([0,0])
 
     //Create SVG element
     var svg = d3.select("body")
@@ -48,11 +49,11 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
                 .attr("height", h)
                 .style("fill", "steelblue")
 
-                //Define path generator
-                var path = d3.geoPath()
+   //Define path generator
+   var path = d3.geoPath()
 
    //Load in GeoJSON data
-    d3.json("data/ok-albers.json", function(json) {
+    d3.json("data/ok.json", function(json) {
       console.log(json)
       console.log(json.features)
         //Bind data and create one path per GeoJSON feature
