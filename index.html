@@ -51,21 +51,22 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
                 .attr("height", h)
                 .style("fill", "steelblue")
 
-   //Define path generator
-   var path = d3.geoPath().projection(projection)
 
-   // Compute the bounds of a feature of interest, then derive scale & translate.
-   var b = path.bounds(features),
-    s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
-    t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
-
-// Update the projection to use computed scale & translate.
-projection
-    .scale(s)
-    .translate(t);
 
    //Load in GeoJSON data
     d3.json("data/ok.json", function(json) {
+      //Define path generator
+      var path = d3.geoPath().projection(projection)
+
+      // Compute the bounds of a feature of interest, then derive scale & translate.
+      var b = path.bounds(json),
+       s = .95 / Math.max((b[1][0] - b[0][0]) / width, (b[1][1] - b[0][1]) / height),
+       t = [(width - s * (b[1][0] + b[0][0])) / 2, (height - s * (b[1][1] + b[0][1])) / 2];
+
+   // Update the projection to use computed scale & translate.
+   projection
+       .scale(s)
+       .translate(t);
       console.log(json)
       console.log(json.features)
         //Bind data and create one path per GeoJSON feature
