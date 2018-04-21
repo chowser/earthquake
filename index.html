@@ -46,12 +46,12 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 
     //Define map projection
     var projection = d3.geoMercator()
-                           .translate([w/2, h/2])
-                           .scale([960]);
+                       .translate([w/2, h/2])
+                       .scale([960]);
 
     //Define path generator
     var path = d3.geoPath()
-                     .projection(projection);
+                 .projection(projection);
 
     //Create SVG element
     var svg = d3.select("body")
@@ -61,7 +61,8 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 
     //Load in GeoJSON data
     d3.json("data/ok.json", function(json) {
-
+      console.log(json)
+      console.log(json.features)
         //Bind data and create one path per GeoJSON feature
         svg.selectAll("path")
            .data(json.features)
