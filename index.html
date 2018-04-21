@@ -16,6 +16,7 @@ https://hackernoon.com/d3-js-and-google-maps-api-in-10-easy-steps-4f258323525b
 https://bost.ocks.org/mike/leaflet/
 http://bl.ocks.org/d3noob/9267535
 http://datamaps.github.io/
+http://eric.clst.org/tech/usgeojson/
 
 uses topojson instead of geojson for better performance and ease of use:
 https://bl.ocks.org/mbostock/5545680
@@ -37,88 +38,38 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 </svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/topojson.v2.min.js"></script>
-<script>
-var center = [35.467560, -97.516428]
+<script type="text/javascript">
 
-var svg = d3.select("svg")
-var g = svg.append("g")
+    //Width and height
+    var w = 960;
+    var h = 500;
 
-// https://developer.mozilla.org/en-US/docs/Web/SVG/Element/defs
-// https://www.sarasoueidan.com/blog/structuring-grouping-referencing-in-svg/
-// select the svg defs element
-var defs = svg.select("defs")
+    //Define map projection
+    var projection = d3.geo.mercator()
+                           .translate([w/2, h/2])
+                           .scale([960]);
 
-// generate paths from data
-// no need to project
-// us-atlas comes already projected:
-// https://groups.google.com/forum/#!topic/d3-js/DU_Od6w2GJU
+    //Define path generator
+    var path = d3.geo.path()
+                     .projection(projection);
 
-var path = d3.geoPath()
-//console.log(Object.keys(path))
+    //Create SVG element
+    var svg = d3.select("body")
+                .append("svg")
+                .attr("width", w)
+                .attr("height", h);
 
+    //Load in GeoJSON data
+    d3.json("data/ok.json", function(json) {
 
-d3.json("https://unpkg.com/us-atlas@1/us/10m.json", function(error, us) {
-   console.log(us)
-   //us.transform = {"scale":2000}
-   if (error) throw error
-/*
-   // define the defs element
-   // this will allow for re-use of the country outline to allow for blur
-   defs.append("path")
-   .attr("id", "nation")
-   .attr("d", path(topojson.feature(us, us.objects.nation)))
+        //Bind data and create one path per GeoJSON feature
+        svg.selectAll("path")
+           .data(json.features)
+           .enter()
+           .append("path")
+           .attr("d", path)
+           .style("fill", "steelblue");
 
-   // blurred country outline
-   svg.append("use")
-   .attr("xlink:href", "#nation")
-   .attr("fill-opacity", 0.2)
-   .attr("filter", "url(#blur)")
-
-   // white country outline
-   svg.append("use")
-   .attr("xlink:href", "#nation")
-   .attr("fill", "#fff")
-
-   // state outlines
-   svg.append("path")
-   .attr("fill", "none")
-   .attr("stroke", "#777")
-   .attr("stroke-width", 0.70)
-   .attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })))
-
-   // county outlines
-   svg.append("path")
-   .attr("fill", "none")
-   .attr("stroke", "#777")
-   .attr("stroke-width", 0.35)
-   .attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
-*/
-svg.append("path")
-.attr("id", "nation")
-.attr("d", path(topojson.feature(us, us.objects.nation)))
-.attr("fill", "none")
-.attr("stroke", "#777")
-.attr("stroke-width", 0.70)
-.attr("scale",2000)
-
-// state outlines
-svg.append("path")
-.attr("fill", "none")
-.attr("stroke", "#777")
-.attr("stroke-width", 0.70)
-.attr("d", path(topojson.mesh(us, us.objects.states, function(a, b) { return a !== b; })))
-
-// county outlines
-svg.append("path")
-.attr("fill", "none")
-.attr("stroke", "#777")
-.attr("stroke-width", 0.35)
-.attr("d", path(topojson.mesh(us, us.objects.counties, function(a, b) { return (a.id / 1000 | 0) === (b.id / 1000 | 0); })));
-var scale = 2000
-g.transition()
-   .duration(750)
-      .style("stroke-width", 1.5 / 2000 + "px")
-      .attr("transform", "scale("+scale+")");
-});
-
-</script>
+    });
+    </script>
+</html>
