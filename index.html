@@ -40,8 +40,8 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     var w = 960;
     var h = 500;
 
-    var projection = d3.geoAlbersUsa()
-                       .scale(6000)
+    var projection = d3.geoMercator()
+                       
                        .translate([w/2,h/2])
 
     //Create SVG element
