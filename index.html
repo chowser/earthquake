@@ -39,10 +39,6 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     //Width and height
     var w = 960;
     var h = 500;
-    var bbox_path = path.bounds(features)
-    var scale = 0.95 / Math.max(
-                   (bbox_path[1][0] - bbox_path[0][0]) / width,
-                   (bbox_path[1][1] - bbox_path[0][1]) / height)
 
     var projection = d3.geoMercator()
                        .scale(10000)
