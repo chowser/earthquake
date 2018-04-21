@@ -30,17 +30,19 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 -->
 <!DOCTYPE html>
 <head>
-   <script src="https://d3js.org/d3.v4.min.js"></script>
-   <script src="https://d3js.org/topojson.v2.min.js"></script>
+
 </head>
 <body></body>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
 <script type="text/javascript">
     //Width and height
     var w = 960;
     var h = 500;
 
-    var projection = d3.geo.AlbersUSA()
-                       .translate([0,0])
+    var projection = d3.geoMercator()
+                       .scale(w/2/Math.PI)
+                       .translate([w/2,h/2])
 
     //Create SVG element
     var svg = d3.select("body")
@@ -50,7 +52,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
                 .style("fill", "steelblue")
 
    //Define path generator
-   var path = d3.geoPath()
+   var path = d3.geoPath().projection(projection)
 
    //Load in GeoJSON data
     d3.json("data/ok.json", function(json) {
