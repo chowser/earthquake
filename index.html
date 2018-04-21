@@ -29,13 +29,6 @@ us-atlas already projected:
 https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-not-working-as-documented
 -->
 <!DOCTYPE html>
-<svg width="960" height="600" stroke-linejoin="round" stroke-linecap="round">
-   <defs>
-      <filter id="blur">
-         <feGaussianBlur stdDeviation="5"></feGaussianBlur>
-      </filter>
-   </defs>
-</svg>
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 <script type="text/javascript">
@@ -65,12 +58,11 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
       console.log(json.features.counties)
         //Bind data and create one path per GeoJSON feature
         svg.selectAll("path")
-           .data(json.features.counties)
+           .data(json.features)
            .enter()
            .append("path")
            .attr("d", path)
            .style("fill", "steelblue");
-
     });
     </script>
 </html>
