@@ -37,8 +37,6 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     var w = 960;
     var h = 500;
 
-    //Define map projection
-
     //Define path generator
     var path = d3.geoPath()
 
@@ -46,7 +44,8 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     var svg = d3.select("body")
                 .append("svg")
                 .attr("width", w)
-                .attr("height", h);
+                .attr("height", h)
+                .style("fill", "steelblue")
 
     //Load in GeoJSON data
     d3.json("data/ok-albers.json", function(json) {
