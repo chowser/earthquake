@@ -58,7 +58,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
       console.log(json.features.counties)
         //Bind data and create one path per GeoJSON feature
         svg.selectAll("path")
-           .data(json.features)
+           .data(json.features.counties.features)
            .enter()
            .append("path")
            .attr("d", path)
