@@ -42,6 +42,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 
     var projection = d3.geoAlbersUsa()
                        .translate([w/2,h/2])
+                       .scale(w)
 
     //Create SVG element
     var svg = d3.select("body")
