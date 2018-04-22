@@ -37,11 +37,11 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 <script type="text/javascript">
     //Width and height
-    var w = 960;
-    var h = 500;
+    var w = 2000;
+    var h = 2000;
 
     var projection = d3.geoMercator()
-                       .scale(w / 2 / Math.PI)
+                       .scale(10000)
                        .translate([w/2,h/2])
 
     //Create SVG element
