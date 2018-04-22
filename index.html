@@ -40,7 +40,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     var w = 960;
     var h = 500;
 
-    var projection = d3.geoAlbers()
+    var projection = d3.geoMercator()
                        .scale(w / 2 / Math.PI)
                        .translate([w/2,h/2])
 
