@@ -40,8 +40,8 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     var w = 960;
     var h = 500;
 
-    var projection = d3.geoAlbersUsa()
-                       .scale(500)
+    var projection = d3.geoAlbers()
+                       .scale(5000)
                        .translate([w/2,h/2])
 
     //Create SVG element
@@ -54,7 +54,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 
 
    //Load in GeoJSON data
-    d3.json("data/ok.json", function(json) {
+    d3.json("data/tract/ok.json", function(json) {
       //Define path generator
       var path = d3.geoPath().projection(projection)
 
