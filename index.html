@@ -121,7 +121,9 @@ svg.selectAll("circle")
                   return projection([+d.longitude,+d.latitude])[1]
                })
    .attr("r", function(d) {
-                 if(+d.prefmag > 0) {
+                 // only return earthquakes that can be felt
+                 // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
+                 if(+d.prefmag >= 3) {
                     // preceding + converts string to int
                     return Math.log(+d.prefmag)*10
                  }
@@ -130,7 +132,7 @@ svg.selectAll("circle")
                  }
               })
    .attr("fill", "blue")
-   .attr("opacity", 0.6)
+   .attr("opacity", 0.3)
 } // end dataLoaded()
 </script>
 </html>
