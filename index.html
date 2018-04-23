@@ -37,12 +37,18 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 <script type="text/javascript">
     //Width and height
-    var w = 960;
-    var h = 500;
-    var latitudeLeft = -103.002413
-    var latitudeRight = -94.43101
-    var mapWidth = latitudeRight - latitudeLeft
-    var scale = 100*w/mapWidth
+    var w = 960
+    var h = 500
+
+    var latitudeTop = 37.002311999999996
+    var latitudeBottom = 33.615787
+    var longitudeLeft = -103.002413
+    var longitudeRight = -94.43101
+
+    var mapWidth = (latitudeLeft*-1) - (latitudeRight*-1)
+    console.log(mapWidth + "\nMap Width")
+    var scale = 360*w/mapWidth
+    console.log(scale + "\n Scale")
     var projection = d3.geoAlbers()
                        .scale(10000)
                        .translate([w/2,h/2])
