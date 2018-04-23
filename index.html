@@ -42,18 +42,13 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 
    //Load in GeoJSON data
     d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
-      // generate initial path to calculate bounds
-      var path = d3.geoPath()
-      var bounds = path.bounds(json)
-      console.log(json.bbox)
-         var latitudeBottom  = bounds [0][2]
-         var latitudeTop     = bounds[1][2]
-          var longitudeLeft  = bounds[0][1]
-          var longitudeRight = bounds[1][1]
-          var latitudeBottom  = bounds [0][2]
-          var latitudeTop     = bounds[1][2]
-           var longitudeLeft  = bounds[0][1]
-           var longitudeRight = bounds[1][1]
+      // calculate boundaries
+      var bounds = json.bbox
+      var longitudeLeft  = bounds[0]
+      var latitudeBottom = bounds[1]
+      var longitudeRight = bounds[2]
+      var latitudeTop    = bounds[3]
+
       var projection = d3.geoAlbers()
                          .fitSize([svgWidth,svgHeight],json)
 
