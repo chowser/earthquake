@@ -132,11 +132,11 @@ svg.selectAll("circle")
    .attr("r", function(d){
                  // only return earthquakes that can be felt
                  // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
-                 if(+d.prefmag >= 3 {
+                 if(+d.prefmag >= 3){
                     // preceding + converts string to int
                     // return Math.log(+d.prefmag*2)*10 this sucks
                     return Math.pow(+d.prefmag,2.2) }
-                 else { return 0 } })
+                 else{ return 0 } })
    .attr("stroke", "gray")
    .attr("fill", function(d) {
                     return color(+d.prefmag) })
