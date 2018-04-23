@@ -47,7 +47,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 
     var mapWidth = (longitudeLeft*-1) - (longitudeRight*-1)
     console.log(mapWidth + "\nMap Width")
-    var scale = 360*w/mapWidth
+    var scale = w/mapWidth
     console.log(scale + "\n Scale")
     var projection = d3.geoAlbers()
                        .scale(10000)
