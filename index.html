@@ -39,6 +39,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 // global variables
 var svgWidth  = 960
 var svgHeight = 500
+var projection
 
 // create SVG element
 var svg = d3.select("body")
@@ -47,18 +48,10 @@ var svg = d3.select("body")
             .attr("height", svgHeight)
             .attr("fill","white")
 
-// preload data
-d3.queue()
-  .defer(d3.json, "data/ok.json")
-  .defer(d3.csv, "data/injection_wells.csv")
-  .defer(d3.csv)
-  .await(ready)
-
-
-function ready(error, json, well) {
-   if(error){ throw error }
-   // console.log(json)
-   // console.log(json.features)
+//Load in GeoJSON data
+d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
+   console.log(json)
+   console.log(json.features)
 
    // calculate boundaries (for later use)
    var bounds = json.bbox
@@ -68,8 +61,8 @@ function ready(error, json, well) {
    var latitudeTop    = bounds[3]
 
    // define projection
-   var projection = d3.geoAlbers()
-                      .fitSize([svgWidth,svgHeight],json)
+   projection = d3.geoAlbers()
+                .fitSize([svgWidth,svgHeight],json)
 
    // define path generator
    var path = d3.geoPath()
@@ -83,6 +76,12 @@ function ready(error, json, well) {
       .attr("d", path)
       .attr("stroke","black")
 
+   // [longitude,latitude]
+   aa = [-97.5,35.5]
+   bb = [-96.8,36]
+}) // end d3.json()
+
+d3.csv("data/injection_wells.csv", function(csv) {
    svg.selectAll("circle")
       .data(csv).enter()
       .append("circle")
@@ -90,9 +89,7 @@ function ready(error, json, well) {
       .attr("cy", function (d) { return projection(d.LAT) })
       .attr("r", "8px")
       .attr("fill", "red")
-} // end ready()
-
-ready()
+}) // end d3.json()
 
 </script>
 </html>
