@@ -71,17 +71,6 @@ function dataLoaded(error, state, wells, earthquakes) {
 console.log(state)
 console.log(state.features)
 
-// sort earthquakes by magnitude ascending
-earthquakes = earthquakes.sort(function(a, b){
-    return (+a.prefmag) - (+b.prefmag)
-})
-
-earthquakes = earthquakes.filter(function(d){
-   return +d.prefmag >= 3
-})
-
-console.log(earthquakes)
-
 // calculate boundaries (for later use)
 var bounds = state.bbox
 var longitudeLeft  = bounds[0]
@@ -129,6 +118,12 @@ svg.selectAll("circle")
 svg.selectAll("circle")
    .data(earthquakes)
    .enter()
+   .filter(function(d){
+              return +d.prefmag >= 3
+           })
+   .sort(function(a,b){
+            return (+a.prefmag) - (+b.prefmag)
+         })
    .append("circle")
    // +d.LONG converts string to integer
    .attr("cx", function(d) {
