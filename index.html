@@ -49,7 +49,7 @@ var svg = d3.select("body")
             .attr("height", svgHeight)
             .attr("fill","white")
 
-queue()
+d3.queue()
 .defer(d3.json, 'ok.json')
 .defer(d3.csv, 'injection_wells.csv')
 .await(dataLoaded)
