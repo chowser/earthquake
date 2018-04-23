@@ -70,6 +70,7 @@ d3.queue()
 function dataLoaded(error, state, wells, earthquakes) {
 console.log(state)
 console.log(state.features)
+console.log("Earthquakes\n" + earthquakes.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
@@ -116,11 +117,10 @@ svg.selectAll("circle")
 
 // draw earthquakes
 svg.selectAll("circle")
-   .data(function(earthquakes){
-            return earthquakes
-            .filter(function(d){ return +d.prefmag >= 3 })
-            .sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
-            console.log(earthquakes) })
+   .data(earthquakes)
+         //.filter(function(d){ return +d.prefmag >= 3 })
+         //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
+            //console.log(earthquakes) })
    .enter()
    .append("circle")
    // +d.LONG converts string to integer
