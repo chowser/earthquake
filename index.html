@@ -50,7 +50,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
           var longitudeLeft  = bounds[0][1]
           var longitudeRight = bounds[1][1]
       var projection = d3.geoAlbers()
-                         .fitSize([w,h],json)
+                         .fitSize([svgWidth,svgHeight],json)
 
       //Define path generator
       var path = d3.geoPath().projection(projection)
