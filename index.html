@@ -116,14 +116,11 @@ svg.selectAll("circle")
 
 // draw earthquakes
 svg.selectAll("circle")
-   .data(earthquakes)
+   .data(sort(function(a,b){
+                 earthquakes.filter(function(d){
+                                       return +d.prefmag >= 3
+                                    }})))
    .enter()
-   .filter(function(d){
-              return +d.prefmag >= 3
-           })
-   .sort(function(a,b){
-            return d3.descending(+a.prefmag,+b.prefmag)
-         })
    .append("circle")
    // +d.LONG converts string to integer
    .attr("cx", function(d) {
