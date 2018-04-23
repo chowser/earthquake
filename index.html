@@ -82,7 +82,7 @@ var longitudeRight = bounds[2]
 var latitudeTop    = bounds[3]
 
 // define projection
-projection = d3.geoAlbers()
+projection = d3.geoMercator()
                 .fitSize([svgWidth,svgHeight],state)
 
 console.log("Projection\n" + projection)
