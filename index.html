@@ -145,6 +145,7 @@ svg.selectAll("circle")
    .attr("fill", function(d){
                     return color(+d.prefmag) })
    .attr("opacity", function(d){
+                       console.log(opacity(+d.prefmag))
                        return opacity(+d.prefmag) })
 
 
