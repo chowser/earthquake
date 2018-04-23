@@ -39,10 +39,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     //Width and height
     var svgWidth  = 960
     var svgHeight = 500
-
-    # path.bounds(object) <>
-
-    Returns the projected planar bounding box (typically in pixels) for the specified GeoJSON object. The bounding box is represented by a two-dimensional array: [[x₀, y₀], [x₁, y₁]], where x₀ is the minimum x-coordinate, y₀ is the minimum y-coordinate, x₁ is maximum x-coordinate, and y₁ is the maximum y-coordinate. This is handy for, say, zooming in to a particular feature. (Note that in projected planar coordinates, the minimum latitude is typically the maximum y-value, and the maximum latitude is typically the minimum y-value.) This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent. This is the planar equivalent of d3.geoBounds.
+    
    //Load in GeoJSON data
     d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
       // generate initial path to calculate bounds
