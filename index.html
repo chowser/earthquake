@@ -101,7 +101,7 @@ svg.selectAll("circle")
                   point = [+d.LONG,+d.LAT]
                   return projection(point)[1]
                })
-   .attr("r", "2px")
+   .attr("r", "1px")
    .attr("fill", "red")
 
 // prefmag
@@ -123,13 +123,14 @@ svg.selectAll("circle")
    .attr("r", function(d) {
                  if(+d.prefmag > 0) {
                     // preceding + converts string to int
-                    return +d.prefmag*2
+                    return Math.log(+d.prefmag)*10
                  }
                  else {
                     return 0
                  }
               })
    .attr("fill", "blue")
+   .attr("opacity", 0.6)
 } // end dataLoaded()
 </script>
 </html>
