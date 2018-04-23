@@ -53,7 +53,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
    //Load in GeoJSON data
     d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
       var projection = d3.geoAlbers()
-                         .fitSize([width,height],json)
+                         .fitSize([w,h],json)
 
       //Define path generator
       var path = d3.geoPath().projection(projection)
