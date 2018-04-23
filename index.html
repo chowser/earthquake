@@ -37,21 +37,27 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 <script type="text/javascript">
     //Width and height
-    var w = 960
-    var h = 500
+    var svgWidth  = 960
+    var svgHeight = 500
 
-    var latitudeTop = 37.002311999999996
-    var latitudeBottom = 33.615787
-    var longitudeLeft = -103.002413
-    var longitudeRight = -94.43101
+    # path.bounds(object) <>
 
-    var mapWidth = (longitudeLeft*-1) - (longitudeRight*-1)
-    console.log(mapWidth + "\nMap Width")
-    var scale = 100*w/mapWidth
-    console.log(scale + "\n Scale")
-
+    Returns the projected planar bounding box (typically in pixels) for the specified GeoJSON object. The bounding box is represented by a two-dimensional array: [[x₀, y₀], [x₁, y₁]], where x₀ is the minimum x-coordinate, y₀ is the minimum y-coordinate, x₁ is maximum x-coordinate, and y₁ is the maximum y-coordinate. This is handy for, say, zooming in to a particular feature. (Note that in projected planar coordinates, the minimum latitude is typically the maximum y-value, and the maximum latitude is typically the minimum y-value.) This method observes any clipping performed by the projection; see projection.clipAngle and projection.clipExtent. This is the planar equivalent of d3.geoBounds.
    //Load in GeoJSON data
     d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
+      // generate initial path to calculate bounds
+      var path = d3.geoPath()
+      var bounds = path.bounds(json)
+      console.log(bounds)
+          var latitudeTop    = 37.002311999999996
+          var latitudeBottom = 33.615787
+          var longitudeLeft  = -103.002413
+          var longitudeRight = -94.43101
+
+          var mapWidth = (longitudeLeft*-1) - (longitudeRight*-1)
+          console.log(mapWidth + "\nMap Width")
+          var scale = 100*w/mapWidth
+          console.log(scale + "\n Scale")
       var projection = d3.geoAlbers()
                          .fitSize([w,h],json)
 
