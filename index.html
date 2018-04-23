@@ -49,23 +49,21 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     console.log(mapWidth + "\nMap Width")
     var scale = 100*w/mapWidth
     console.log(scale + "\n Scale")
-    var projection = d3.geoAlbers()
-                       .scale(10000)
-                       .translate([w/2,h/2])
-
-    //Create SVG element
-    var svg = d3.select("body")
-                .append("svg")
-                .attr("width", w)
-                .attr("height", h)
-                //.style("fill", "steelblue")
-
-
 
    //Load in GeoJSON data
     d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
+      var projection = d3.geoAlbers()
+                         .fitSize([width,height],json)
+
       //Define path generator
       var path = d3.geoPath().projection(projection)
+
+      //Create SVG element
+      var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", w)
+                  .attr("height", h)
+                  //.style("fill", "steelblue")
 
       console.log(json)
       console.log(json.features)
