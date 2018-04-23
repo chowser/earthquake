@@ -49,20 +49,17 @@ var svg = d3.select("body")
             .attr("height", svgHeight)
             .attr("fill","white")
 
-//Load in GeoJSON data
-d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
-   oklahoma = json
-})
+queue()
+.defer(d3.json, 'ok.json')
+.defer(d3.csv, 'injection_wells.csv')
+.await(dataLoaded)
 
-d3.csv("data/injection_wells.csv", function(csv) {
-   injectionWells = csv
-})
-
-console.log(oklahoma)
-console.log(oklahoma.features)
+function dataLoaded(error, state, wells) {
+console.log(state)
+console.log(state.features)
 
 // calculate boundaries (for later use)
-var bounds = oklahoma.bbox
+var bounds = state.bbox
 var longitudeLeft  = bounds[0]
 var latitudeBottom = bounds[1]
 var longitudeRight = bounds[2]
@@ -70,7 +67,7 @@ var latitudeTop    = bounds[3]
 
 // define projection
 projection = d3.geoAlbers()
-                .fitSize([svgWidth,svgHeight],oklahoma)
+                .fitSize([svgWidth,svgHeight],state)
 
 console.log("Projection\n" + projection)
 
@@ -80,7 +77,7 @@ var path = d3.geoPath()
 
 // bind data and create one path per GeoJSON feature
 svg.selectAll("path")
-   .data(oklahoma.features)
+   .data(state.features)
    .enter()
    .append("path")
    .attr("d", path)
@@ -91,12 +88,13 @@ svg.selectAll("path")
 // bb = [-96.8,36]
 
 svg.selectAll("circle")
-   .data(csv)
+   .data(wells)
    .enter()
    .append("circle")
    .attr("cx", function (d) { return projection(d.LONG) })
    .attr("cy", function (d) { return projection(d.LAT) })
    .attr("r", "8px")
    .attr("fill", "red")
+} // end dataLoaded()
 </script>
 </html>
