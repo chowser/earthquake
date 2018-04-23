@@ -47,7 +47,7 @@ var point, magnitude
 var color = d3.scaleLinear()
   .domain([0, 10])
   .range(["yellow", "red"]);
-  
+
 // create SVG element
 var svg = d3.select("body")
             .append("svg")
@@ -65,6 +65,11 @@ d3.queue()
 function dataLoaded(error, state, wells, earthquakes) {
 console.log(state)
 console.log(state.features)
+
+// sort earthquakes by magnitude ascending
+earthquakes.sort(function(a, b){
+    return (+a.prefmag) - (+b.prefmag)
+})
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
