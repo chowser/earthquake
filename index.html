@@ -63,11 +63,11 @@ var svg = d3.select("body")
 // preload data with d3.queue() so map isn't generated before data is loaded
 d3.queue()
 .defer(d3.json, 'data/ok.json')
-.defer(d3.csv, 'data/injection_wells.csv')
 .defer(d3.csv, 'data/ok_earthquakes.csv')
+.defer(d3.csv, 'data/injection_wells.csv')
 .await(dataLoaded)
 
-function dataLoaded(error, state, wells, earthquakes) {
+function dataLoaded(error, state, earthquakes, wells) {
 console.log(state)
 console.log(state.features)
 console.log("Earthquakes Original\n" + earthquakes)
@@ -92,30 +92,14 @@ var path = d3.geoPath()
              .projection(projection)
 
 // draw state (bind data and create one path per GeoJSON feature)
-svg
+svg.selectAll("path")
    .data(state.features)
    .enter()
    .append("path")
    .attr("d", path)
    .attr("stroke","black")
 
-   // draw wells
-   svg.selectAll("circle")
-     .data(wells)
-     .enter()
-     .append("circle")
-     .attr("cx", function(d) {
-                    // preceding + converts string to int
-                    point = [+d.LONG,+d.LAT]
-                    return projection(point)[0]
-                 })
-     .attr("cy", function(d) {
-                    // preceding + converts string to int
-                    point = [+d.LONG,+d.LAT]
-                    return projection(point)[1]
-                 })
-     .attr("r", "1px")
-     .attr("fill", "green")
+
 
 // draw earthquakes
 svg.selectAll("circle")
@@ -145,8 +129,26 @@ svg.selectAll("circle")
    .attr("fill", function(d){
                     return color(+d.prefmag) })
    .attr("opacity", function(d){
-                       console.log(opacity(+d.prefmag))
                        return opacity(+d.prefmag) })
+   console.log("Done with earthquakes.")
+
+   // draw wells
+   svg.selectAll("circle")
+     .data(wells)
+     .enter()
+     .append("circle")
+     .attr("cx", function(d) {
+                    // preceding + converts string to int
+                    point = [+d.LONG,+d.LAT]
+                    return projection(point)[0]
+                 })
+     .attr("cy", function(d) {
+                    // preceding + converts string to int
+                    point = [+d.LONG,+d.LAT]
+                    return projection(point)[1]
+                 })
+     .attr("r", "1px")
+     .attr("fill", "green")
 } // end dataLoaded()
 </script>
 </html>
