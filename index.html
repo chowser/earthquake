@@ -56,9 +56,10 @@ var color = d3.scalePow()
               .range(["lightgoldenrodyellow", "darkred"]);
 
 // opacity scale for earthquakes
-var opacity = d3.scaleLinear()
+var opacity = d3.scalePow()
+                .exponent(2)
                 .domain([0,10])
-                .range([0.1,0.9])
+                .range([0.1,0.8])
 
 // create SVG element
 var svg = d3.select("body")
