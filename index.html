@@ -125,7 +125,8 @@ svg.selectAll("circle")
                  // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
                  if(+d.prefmag >= 3) {
                     // preceding + converts string to int
-                    return Math.log(+d.prefmag*2)*10
+                    // return Math.log(+d.prefmag*2)*10 this sucks
+                    return Math.pow(+d.prefmag,2)
                  }
                  else {
                     return 0
