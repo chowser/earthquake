@@ -48,10 +48,10 @@ var color = d3.scaleLinear()
               .domain([0, 10])
               .range(["yellow", "red"]);
 
+// opacity scale for earthquakes
 var opacity = d3.scaleLinear()
                 .domain([0,10])
-                .range([2,8])
-
+                .range([0.2,0.6])
 
 // create SVG element
 var svg = d3.select("body")
@@ -75,6 +75,12 @@ console.log(state.features)
 earthquakes.sort(function(a, b){
     return (+a.prefmag) - (+b.prefmag)
 })
+
+earthquakes.filter(function(d){
+   return +d.prefmag >= 3
+})
+
+console.log(earthquakes)
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
