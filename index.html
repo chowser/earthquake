@@ -92,7 +92,7 @@ var path = d3.geoPath()
              .projection(projection)
 
 // draw state (bind data and create one path per GeoJSON feature)
-svg.selectAll("path")
+svg
    .data(state.features)
    .enter()
    .append("path")
@@ -116,7 +116,6 @@ svg.selectAll("path")
                  })
      .attr("r", "1px")
      .attr("fill", "green")
-     .attr("z-index",-1)
 
 // draw earthquakes
 svg.selectAll("circle")
