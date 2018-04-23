@@ -89,7 +89,7 @@ var latitudeTop    = bounds[3]
 
 // define projection
 projection = d3.geoMercator()
-                .fitSize([svgWidth-padding,svgHeight-padding],state)
+                .fitSize([svgWidth,svgHeight],state)
 
 console.log("Projection\n" + projection)
 
