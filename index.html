@@ -53,13 +53,15 @@ var point, magnitude
 var color = d3.scalePow()
               .exponent(2)
               .domain([0, 10])
-              .range(["lightgoldenrodyellow", "darkred"]);
+              .range(["yellow", "darkred"]);
 
+/*
 // opacity scale for earthquakes
 var opacity = d3.scalePow()
                 .exponent(2)
                 .domain([0,10])
                 .range([0.3,0.8])
+*/
 
 // create SVG element
 var svg = d3.select("body")
@@ -134,8 +136,10 @@ svg.selectAll(".earthquake")
    .attr("stroke", "gray")
    .attr("fill", function(d){
                     return color(+d.prefmag) })
+/*
    .attr("opacity", function(d){
                        return opacity(+d.prefmag) })
+                       */
    console.log("Done with earthquakes.")
 
    // draw wells
