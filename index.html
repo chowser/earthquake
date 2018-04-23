@@ -119,7 +119,7 @@ svg.selectAll("circle")
    .data(sort(function(a,b){
                  earthquakes.filter(function(d){
                                        return +d.prefmag >= 3
-                                    }})))
+                                    })}))
    .enter()
    .append("circle")
    // +d.LONG converts string to integer
