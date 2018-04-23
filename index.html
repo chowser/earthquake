@@ -99,8 +99,6 @@ svg.selectAll("path")
    .attr("d", path)
    .attr("stroke","black")
 
-
-
 // draw earthquakes
 svg.selectAll("circle")
    .data(earthquakes)
@@ -149,6 +147,7 @@ svg.selectAll("circle")
                  })
      .attr("r", "1px")
      .attr("fill", "green")
+     console.log("Done with earthquakes.")
 } // end dataLoaded()
 </script>
 </html>
