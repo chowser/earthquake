@@ -70,11 +70,9 @@ d3.queue()
 function dataLoaded(error, state, wells, earthquakes) {
 console.log(state)
 console.log(state.features)
-console.log("Earthquakes\n" + earthquakes)
-console.log("Earthquakes\n" + earthquakes.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) }))
-console.log("Earthquakes\n" + earthquakes)
-console.log("Earthquakes\n" + earthquakes.filter(function(d){ return +d.prefmag >= 3 }))
-console.log("Earthquakes\n" + earthquakes)
+console.log("Earthquakes Original\n" + earthquakes)
+console.log("Earthquakes Sorted\n" + earthquakes.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) }))
+console.log("Earthquakes Filtered\n" + earthquakes.filter(function(d){ return +d.prefmag >= 3 }))
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
