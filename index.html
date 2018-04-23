@@ -72,11 +72,11 @@ console.log(state)
 console.log(state.features)
 
 // sort earthquakes by magnitude ascending
-earthquakes.sort(function(a, b){
+earthquakes = earthquakes.sort(function(a, b){
     return (+a.prefmag) - (+b.prefmag)
 })
 
-earthquakes.filter(function(d){
+earthquakes = earthquakes.filter(function(d){
    return +d.prefmag >= 3
 })
 
