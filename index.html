@@ -42,9 +42,12 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 var svgWidth  = 960
 var svgHeight = 500
 var point, magnitude
-var color = d3.scale.linear()
+
+// color scale for earthquakes
+var color = d3.scaleLinear()
   .domain([0, 10])
   .range(["yellow", "red"]);
+  
 // create SVG element
 var svg = d3.select("body")
             .append("svg")
