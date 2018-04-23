@@ -116,41 +116,32 @@ svg.selectAll("circle")
 
 // draw earthquakes
 svg.selectAll("circle")
-   .data(d3.sort(function(a,b){
-                    d3.filter(function(d){
-                                 return +d.prefmag >= 3
-                              })}))
+   .data(earthquakes.filter(function(d){ return +d.prefmag >= 3 })
+                    .sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
+
    .enter()
    .append("circle")
    // +d.LONG converts string to integer
-   .attr("cx", function(d) {
+   .attr("cx", function(d){
                   // preceding + converts string to int
-                  return projection([+d.longitude,+d.latitude])[0]
-               })
+                  return projection([+d.longitude,+d.latitude])[0] })
    // +d.LAT converts string to integer
-   .attr("cy", function(d) {
+   .attr("cy", function(d){
                   // preceding + converts string to int
-                  return projection([+d.longitude,+d.latitude])[1]
-               })
-   .attr("r", function(d) {
+                  return projection([+d.longitude,+d.latitude])[1] })
+   .attr("r", function(d){
                  // only return earthquakes that can be felt
                  // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
-                 if(+d.prefmag >= 3) {
+                 if(+d.prefmag >= 3 {
                     // preceding + converts string to int
                     // return Math.log(+d.prefmag*2)*10 this sucks
-                    return Math.pow(+d.prefmag,2.2)
-                 }
-                 else {
-                    return 0
-                 }
-              })
+                    return Math.pow(+d.prefmag,2.2) }
+                 else { return 0 } })
    .attr("stroke", "gray")
    .attr("fill", function(d) {
-                    return color(+d.prefmag)
-                 })
+                    return color(+d.prefmag) })
    .attr("opacity", function(d) {
-                       return opacity(+d.prefmag)
-                    })
+                       return opacity(+d.prefmag) })
 
 
 } // end dataLoaded()
