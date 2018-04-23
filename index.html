@@ -41,7 +41,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 // global variables
 var svgWidth  = 960
 var svgHeight = 500
-var point
+var point, magnitude
 
 // create SVG element
 var svg = d3.select("body")
@@ -91,12 +91,12 @@ svg.selectAll("circle")
    .data(wells)
    .enter()
    .append("circle")
-   .attr("cx", function (d) {
+   .attr("cx", function(d) {
                   // preceding + converts string to int
                   point = [+d.LONG,+d.LAT]
                   return projection(point)[0]
                })
-   .attr("cy", function (d) {
+   .attr("cy", function(d) {
                   // preceding + converts string to int
                   point = [+d.LONG,+d.LAT]
                   return projection(point)[1]
@@ -104,22 +104,31 @@ svg.selectAll("circle")
    .attr("r", "2px")
    .attr("fill", "red")
 
+// prefmag
 // draw earthquakes
 svg.selectAll("circle")
    .data(earthquakes)
    .enter()
    .append("circle")
    // +d.LONG converts string to integer
-   .attr("cx", function (d) {
-                  point = [+d.longitude,+d.latitude] // preceding + converts string to int
-                  return projection(point)[0]
+   .attr("cx", function(d) {
+                  // preceding + converts string to int
+                  return projection([+d.longitude,+d.latitude])[0]
                })
    // +d.LAT converts string to integer
-   .attr("cy", function (d) {
-                  point = [+d.longitude,+d.latitude] // preceding + converts string to int
-                  return projection(point)[1]
+   .attr("cy", function(d) {
+                  // preceding + converts string to int
+                  return projection([+d.longitude,+d.latitude])[1]
                })
-   .attr("r", "2px")
+   .attr("r", function(d) {
+                 if(+d.prefmag > 0) {
+                    // preceding + converts string to int
+                    return +d.prefmag*2
+                 }
+                 else {
+                    return 0
+                 }
+              })
    .attr("fill", "blue")
 } // end dataLoaded()
 </script>
