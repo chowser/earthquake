@@ -36,11 +36,11 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 <script src="https://d3js.org/d3.v4.min.js"></script>
 <script src="https://d3js.org/topojson.v2.min.js"></script>
 <script type="text/javascript">
+// note: map points are formatted as [longitude,latitude]
+
 // global variables
 var svgWidth  = 960
 var svgHeight = 500
-var oklahoma
-var injectionWells
 var point
 
 // create SVG element
@@ -50,12 +50,14 @@ var svg = d3.select("body")
             .attr("height", svgHeight)
             .attr("fill","white")
 
+// preload data with d3.queue() so map isn't generated before data is loaded
 d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv, 'data/injection_wells.csv')
+.defer(d3.csv, 'data/ok_earthquakes.csv')
 .await(dataLoaded)
 
-function dataLoaded(error, state, wells) {
+function dataLoaded(error, state, wells, earthquakes) {
 console.log(state)
 console.log(state.features)
 
@@ -76,7 +78,7 @@ console.log("Projection\n" + projection)
 var path = d3.geoPath()
              .projection(projection)
 
-// bind data and create one path per GeoJSON feature
+// draw state (bind data and create one path per GeoJSON feature)
 svg.selectAll("path")
    .data(state.features)
    .enter()
@@ -84,26 +86,41 @@ svg.selectAll("path")
    .attr("d", path)
    .attr("stroke","black")
 
-// [longitude,latitude]
-// aa = [-97.5,35.5]
-// bb = [-96.8,36]
-
+// draw wells
 svg.selectAll("circle")
    .data(wells)
    .enter()
    .append("circle")
-   // +d.LONG converts string to integer
    .attr("cx", function (d) {
-                  point = [+d.LONG,+d.LAT] // preceding + converts string to int
+                  // preceding + converts string to int
+                  point = [+d.LONG,+d.LAT]
                   return projection(point)[0]
                })
-   // +d.LAT converts string to integer
    .attr("cy", function (d) {
-                  point = [+d.LONG,+d.LAT] // preceding + converts string to int
+                  // preceding + converts string to int
+                  point = [+d.LONG,+d.LAT]
                   return projection(point)[1]
                })
    .attr("r", "2px")
    .attr("fill", "red")
+
+// draw earthquakes
+svg.selectAll("circle")
+   .data(earthquakes)
+   .enter()
+   .append("circle")
+   // +d.LONG converts string to integer
+   .attr("cx", function (d) {
+                  point = [+d.longitude,+d.latitude] // preceding + converts string to int
+                  return projection(point)[0]
+               })
+   // +d.LAT converts string to integer
+   .attr("cy", function (d) {
+                  point = [+d.longitude,+d.latitude] // preceding + converts string to int
+                  return projection(point)[1]
+               })
+   .attr("r", "2px")
+   .attr("fill", "blue")
 } // end dataLoaded()
 </script>
 </html>
