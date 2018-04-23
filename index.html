@@ -44,7 +44,8 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     var mapWidth = latitudeRight - latitudeLeft
     var scale = 100*w/mapWidth
     var projection = d3.geoMercator()
-                       .scale(scale)
+                       .scale(2000)
+                       .center([0,latitudeLeft + scale])
                        .translate([w/2,h/2])
 
     //Create SVG element
