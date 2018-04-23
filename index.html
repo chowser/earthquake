@@ -45,8 +45,13 @@ var point, magnitude
 
 // color scale for earthquakes
 var color = d3.scaleLinear()
-  .domain([0, 10])
-  .range(["yellow", "red"]);
+              .domain([0, 10])
+              .range(["yellow", "red"]);
+
+var opacity = d3.scaleLinear()
+                .domain([0,10])
+                .range([2,8])
+
 
 // create SVG element
 var svg = d3.select("body")
@@ -141,10 +146,13 @@ svg.selectAll("circle")
                     return 0
                  }
               })
+   .attr("stroke", "gray")
    .attr("fill", function(d) {
                     return color(+d.prefmag)
                  })
-   .attr("opacity", 0.3)
+   .attr("opacity", function(d) {
+                       return opacity(+d.prefmag)
+                    })
 
 
 } // end dataLoaded()
