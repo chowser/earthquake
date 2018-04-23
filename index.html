@@ -41,6 +41,7 @@ var svgWidth  = 960
 var svgHeight = 500
 var oklahoma
 var injectionWells
+var point
 
 // create SVG element
 var svg = d3.select("body")
@@ -93,13 +94,13 @@ svg.selectAll("circle")
    .append("circle")
    // +d.LONG converts string to integer
    .attr("cx", function (d) {
-                  var longitude = +d.LONG
-                  return projection(longitude)
+                  point = [+d.LONG,+d.LAT] // preceding + converts string to int
+                  return projection(point)[0]
                })
    // +d.LAT converts string to integer
    .attr("cy", function (d) {
-                  var latitude = +d.LAT
-                  return projection(latitude)
+                  point = [+d.LONG,+d.LAT] // preceding + converts string to int
+                  return projection(point)[1]
                })
    .attr("r", "8px")
    .attr("fill", "red")
