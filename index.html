@@ -45,10 +45,15 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
       // generate initial path to calculate bounds
       var path = d3.geoPath()
       var bounds = path.bounds(json)
+      console.log(json.bbox)
          var latitudeBottom  = bounds [0][2]
          var latitudeTop     = bounds[1][2]
           var longitudeLeft  = bounds[0][1]
           var longitudeRight = bounds[1][1]
+          var latitudeBottom  = bounds [0][2]
+          var latitudeTop     = bounds[1][2]
+           var longitudeLeft  = bounds[0][1]
+           var longitudeRight = bounds[1][1]
       var projection = d3.geoAlbers()
                          .fitSize([svgWidth,svgHeight],json)
 
