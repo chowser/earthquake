@@ -41,6 +41,13 @@ var svgWidth  = 960
 var svgHeight = 500
 var projection
 
+// create SVG element
+var svg = d3.select("body")
+            .append("svg")
+            .attr("width", svgWidth)
+            .attr("height", svgHeight)
+            .attr("fill","white")
+
 //Load in GeoJSON data
 d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
    console.log(json)
@@ -60,13 +67,6 @@ d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
    // define path generator
    var path = d3.geoPath()
                 .projection(projection)
-
-   // create SVG element
-   var svg = d3.select("body")
-               .append("svg")
-               .attr("width", svgWidth)
-               .attr("height", svgHeight)
-               .attr("fill","white")
 
    // bind data and create one path per GeoJSON feature
    svg.selectAll("path")
