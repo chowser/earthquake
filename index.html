@@ -86,25 +86,7 @@ svg.selectAll("path")
    .attr("d", path)
    .attr("stroke","black")
 
-// draw wells
-svg.selectAll("circle")
-   .data(wells)
-   .enter()
-   .append("circle")
-   .attr("cx", function(d) {
-                  // preceding + converts string to int
-                  point = [+d.LONG,+d.LAT]
-                  return projection(point)[0]
-               })
-   .attr("cy", function(d) {
-                  // preceding + converts string to int
-                  point = [+d.LONG,+d.LAT]
-                  return projection(point)[1]
-               })
-   .attr("r", "1px")
-   .attr("fill", "red")
 
-// prefmag
 // draw earthquakes
 svg.selectAll("circle")
    .data(earthquakes)
@@ -126,7 +108,7 @@ svg.selectAll("circle")
                  if(+d.prefmag >= 3) {
                     // preceding + converts string to int
                     // return Math.log(+d.prefmag*2)*10 this sucks
-                    return Math.pow(+d.prefmag,2)
+                    return Math.pow(+d.prefmag,3)
                  }
                  else {
                     return 0
@@ -134,6 +116,24 @@ svg.selectAll("circle")
               })
    .attr("fill", "blue")
    .attr("opacity", 0.3)
+
+   // draw wells
+   svg.selectAll("circle")
+      .data(wells)
+      .enter()
+      .append("circle")
+      .attr("cx", function(d) {
+                     // preceding + converts string to int
+                     point = [+d.LONG,+d.LAT]
+                     return projection(point)[0]
+                  })
+      .attr("cy", function(d) {
+                     // preceding + converts string to int
+                     point = [+d.LONG,+d.LAT]
+                     return projection(point)[1]
+                  })
+      .attr("r", "1px")
+      .attr("fill", "red")
 } // end dataLoaded()
 </script>
 </html>
