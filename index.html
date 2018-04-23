@@ -39,22 +39,16 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
     //Width and height
     var svgWidth  = 960
     var svgHeight = 500
-    
+
    //Load in GeoJSON data
     d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
       // generate initial path to calculate bounds
       var path = d3.geoPath()
       var bounds = path.bounds(json)
-      console.log(bounds)
-          var latitudeTop    = 37.002311999999996
-          var latitudeBottom = 33.615787
-          var longitudeLeft  = -103.002413
-          var longitudeRight = -94.43101
-
-          var mapWidth = (longitudeLeft*-1) - (longitudeRight*-1)
-          console.log(mapWidth + "\nMap Width")
-          var scale = 100*w/mapWidth
-          console.log(scale + "\n Scale")
+         var latitudeBottom  = bounds [0][2]
+         var latitudeTop     = bounds[1][2]
+          var longitudeLeft  = bounds[0][1]
+          var longitudeRight = bounds[1][1]
       var projection = d3.geoAlbers()
                          .fitSize([w,h],json)
 
@@ -64,8 +58,8 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
       //Create SVG element
       var svg = d3.select("body")
                   .append("svg")
-                  .attr("width", w)
-                  .attr("height", h)
+                  .attr("width", svgWidth)
+                  .attr("height", svgHeight)
                   .attr("stroke","black")
                   .attr("fill","white")
 
