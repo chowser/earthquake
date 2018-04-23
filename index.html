@@ -91,8 +91,10 @@ svg.selectAll("circle")
    .data(wells)
    .enter()
    .append("circle")
-   .attr("cx", function (d) { return projection(d.LONG) })
-   .attr("cy", function (d) { return projection(d.LAT) })
+   // +d.LONG converts string to integer
+   .attr("cx", function (d) { return projection(+d.LONG) })
+   // +d.LAT converts string to integer
+   .attr("cy", function (d) { return projection(+d.LAT) })
    .attr("r", "8px")
    .attr("fill", "red")
 } // end dataLoaded()
