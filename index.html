@@ -52,49 +52,49 @@ var svg = d3.select("body")
 //Load in GeoJSON data
 d3.json("data/tract/tl_2017_40_tract/ok.json", function(json) {
    oklahoma = json
-}
+})
 
 d3.csv("data/injection_wells.csv", function(csv) {
    injectionWells = csv
-}
-   console.log(json)
-   console.log(json.features)
+})
 
-   // calculate boundaries (for later use)
-   var bounds = json.bbox
-   var longitudeLeft  = bounds[0]
-   var latitudeBottom = bounds[1]
-   var longitudeRight = bounds[2]
-   var latitudeTop    = bounds[3]
+console.log(json)
+console.log(json.features)
 
-   // define projection
-   projection = d3.geoAlbers()
+// calculate boundaries (for later use)
+var bounds = json.bbox
+var longitudeLeft  = bounds[0]
+var latitudeBottom = bounds[1]
+var longitudeRight = bounds[2]
+var latitudeTop    = bounds[3]
+
+// define projection
+projection = d3.geoAlbers()
                 .fitSize([svgWidth,svgHeight],json)
-   console.log("Projection\n" + projection)
+console.log("Projection\n" + projection)
 
-   // define path generator
-   var path = d3.geoPath()
-                .projection(projection)
+// define path generator
+var path = d3.geoPath()
+             .projection(projection)
 
-   // bind data and create one path per GeoJSON feature
-   svg.selectAll("path")
-      .data(json.features)
-      .enter()
-      .append("path")
-      .attr("d", path)
-      .attr("stroke","black")
+// bind data and create one path per GeoJSON feature
+svg.selectAll("path")
+   .data(json.features)
+   .enter()
+   .append("path")
+   .attr("d", path)
+   .attr("stroke","black")
 
-   // [longitude,latitude]
-   // aa = [-97.5,35.5]
-   // bb = [-96.8,36]
+// [longitude,latitude]
+// aa = [-97.5,35.5]
+// bb = [-96.8,36]
 
-   svg.selectAll("circle")
-      .data(csv).enter()
-      .append("circle")
-      .attr("cx", function (d) { return projection(d.LONG) })
-      .attr("cy", function (d) { return projection(d.LAT) })
-      .attr("r", "8px")
-      .attr("fill", "red")
-
+svg.selectAll("circle")
+   .data(csv).enter()
+   .append("circle")
+   .attr("cx", function (d) { return projection(d.LONG) })
+   .attr("cy", function (d) { return projection(d.LAT) })
+   .attr("r", "8px")
+   .attr("fill", "red")
 </script>
 </html>
