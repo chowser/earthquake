@@ -27,6 +27,11 @@ https://mynasadata.larc.nasa.gov/latitudelongitude-finder/
 
 us-atlas already projected:
 https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-not-working-as-documented
+
+http://pnavarrc.github.io/talk-d3-charts/earthquake.html
+
+download cencus tracts:
+https://www.census.gov/cgi-bin/geo/shapefiles/index.php
 -->
 <!DOCTYPE html>
 <head>
@@ -41,6 +46,7 @@ https://stackoverflow.com/questions/44507572/setting-projection-of-d3-geopath-no
 // global variables
 var svgWidth  = 960
 var svgHeight = 500
+var padding   = 20
 var point, magnitude
 
 // color scale for earthquakes
@@ -83,7 +89,8 @@ var latitudeTop    = bounds[3]
 
 // define projection
 projection = d3.geoMercator()
-                .fitSize([svgWidth,svgHeight],state)
+                .fitSize([svgWidth-padding,svgHeight-padding],state)
+                .translate([svgWidth/2,svgHeight/2])
 
 console.log("Projection\n" + projection)
 
