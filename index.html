@@ -50,9 +50,8 @@ var padding   = 20
 var point, magnitude
 
 // color scale for earthquakes
-var color = d3.scalePow()
-              .exponent(2)
-              .domain([0, 10])
+var color = d3.scaleLinear()
+              .domain([0, 6])
               .range(["orange", "crimson"]);
 
 /*
