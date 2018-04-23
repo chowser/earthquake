@@ -116,9 +116,9 @@ svg.selectAll("circle")
 
 // draw earthquakes
 svg.selectAll("circle")
-   .data(earthquakes.filter(function(d){ return +d.prefmag >= 3 })
-                    .sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
-
+   .data(earthquakes
+         .filter(function(d){ return +d.prefmag >= 3 })
+         .sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) }))
    .enter()
    .append("circle")
    // +d.LONG converts string to integer
@@ -138,9 +138,9 @@ svg.selectAll("circle")
                     return Math.pow(+d.prefmag,2.2) }
                  else{ return 0 } })
    .attr("stroke", "gray")
-   .attr("fill", function(d) {
+   .attr("fill", function(d){
                     return color(+d.prefmag) })
-   .attr("opacity", function(d) {
+   .attr("opacity", function(d){
                        return opacity(+d.prefmag) })
 
 
