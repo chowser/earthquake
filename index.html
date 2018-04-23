@@ -50,8 +50,8 @@ var svg = d3.select("body")
             .attr("fill","white")
 
 d3.queue()
-.defer(d3.json, 'ok.json')
-.defer(d3.csv, 'injection_wells.csv')
+.defer(d3.json, 'data/ok.json')
+.defer(d3.csv, 'data/injection_wells.csv')
 .await(dataLoaded)
 
 function dataLoaded(error, state, wells) {
