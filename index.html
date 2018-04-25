@@ -35,7 +35,7 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   <link rel="stylesheet" href="code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
    <style>
       #custom-handle{
         width: 3em
@@ -52,6 +52,20 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
       }
    </style>
 </head>
+<body>
+   <center>
+      <div id="slider">
+         <div id="custom-handle" class="ui-slider-handle"></div>
+      </div>
+         <br/>
+      <div>
+         <button  id="btnDraw" type="button">Create Map</button>
+      </div>
+
+
+      <div id="chart"></div>
+   </center>
+</body>
 
 <!-- create slider -->
 <script type="text/javascript">
@@ -189,18 +203,4 @@ function drawEarthquakes(startYear) {
         .attr("fill", "green")
    } // end drawEarthquakes()
 </script>
-<body>
-   <center>
-      <div id="slider">
-         <div id="custom-handle" class="ui-slider-handle"></div>
-      </div>
-         <br/>
-      <div>
-         <button  id="btnDraw" type="button">Create Map</button>
-      </div>
-
-
-      <div id="chart"></div>
-   </center>
-</body>
 </html>
