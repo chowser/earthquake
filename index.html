@@ -38,12 +38,13 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
    <style>
       #custom-handle{
-        width: 6em
+        width: 3em
         height: 1.6em
         top: 50%
         margin-top: -.8em
         text-align: center
         line-height: 1.6em
+        padding-left: 5px
       }
 
       #slider{
@@ -52,36 +53,22 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
    </style>
 </head>
 
-<body>
-   <center>
-      <div id="slider">
-         <div id="custom-handle" class="ui-slider-handle"></div>
-      </div>
-         <br/>
-      <div>
-         <button  id="btnDraw" type="button">Create Map</button>
-      </div>
-
-
-      <div id="chart"></div>
-   </center>
-</body>
-
 <!-- create slider -->
 <script type="text/javascript">
-$( function() {
+$(function(){
   var handle = $("#custom-handle")
+
   $("#slider").slider({
-     width: 960,
     min: 1900,
     max: 2018,
     create: function() {
-      handle.text( $(this).slider("value"))
+      handle.text($(this).slider("value"))
     },
     slide: function(event, ui) {
       handle.text(ui.value)
     }
   })
+
   $("#btnDraw").click(function(){
      drawEarthquakes($("#slider").slider("value"))
   })
@@ -202,4 +189,18 @@ function drawEarthquakes(startYear) {
         .attr("fill", "green")
    } // end drawEarthquakes()
 </script>
+<body>
+   <center>
+      <div id="slider">
+         <div id="custom-handle" class="ui-slider-handle"></div>
+      </div>
+         <br/>
+      <div>
+         <button  id="btnDraw" type="button">Create Map</button>
+      </div>
+
+
+      <div id="chart"></div>
+   </center>
+</body>
 </html>
