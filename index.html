@@ -86,6 +86,8 @@ d3.queue()
 .await(dataLoaded)
 
 function dataLoaded(error, state, earthquakes, wells) {
+// convert origin time from datetime to year using formatDate()
+// we only need the year for filtering
 earthquakes = earthquakes.map(function(d){
    d.origintime = formatDate(new Date(d.origintime))
    return d
@@ -99,11 +101,8 @@ console.log(earthquakes)
 // console.log("Earthquakes Sorted\n" +
 // earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
 
-// console.log("Earthquakes Filtered\n" +
-// earthquakes.filter(function(d){ return +d.prefmag >= 3 }))
-
-// convert string to date and format with formatDate()
-//console.log("Earthquake Year\n" + formatDate(new Date(earthquakes[0].origintime)))
+console.log("Earthquakes Filtered\n" +
+ earthquakes.filter(function(d){ return +d.origintime >= 2017 }))
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
