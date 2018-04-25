@@ -8,7 +8,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>jQuery UI Slider - Custom handle</title>
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link rel="stylesheet" href="/resources/demos/style.css">
   <style>
   #custom-handle {
     width: 3em;
@@ -25,6 +24,7 @@
   $( function() {
     var handle = $("#custom-handle");
     $("#slider").slider({
+      range: true,
       values: [1900,2018],
       create: function() {
         handle.text( $(this).slider("value"));
