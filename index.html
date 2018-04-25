@@ -102,7 +102,9 @@ console.log(earthquakes)
 // earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
 
 console.log("Earthquakes Filtered\n" +
- earthquakes.filter(function(d){ return +d.origintime == "2018" })[0].origintime)
+// earthquakes.filter(function(d){ return +d.origintime == "2018" })[0].origintime)
+earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
+earthquakes = earthquakes.filter(function(d){ return +d.origintime == "2018" })
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
@@ -135,7 +137,7 @@ svg.selectAll(".earthquake")
          //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
             //console.log(earthquakes) })
    .enter()
-   .filter(function(d){ return +d.prefmag >= 3 })
+
    .append("circle")
    // +d.LONG converts string to integer
    .attr("cx", function(d){
