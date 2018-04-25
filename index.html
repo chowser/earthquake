@@ -142,11 +142,12 @@ function dataLoaded(error, a, b, c) {
    } // end dataLoaded()
    function drawEarthquakes() {
    startYear = $("#slider").val()
+   console.log(startYear)
    // sort earthquakes
    // earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
    // filter earthquakes from 2018
    filteredEarthquakes = earthquakes.filter(function(d){
-      return +d.origintime >= +startYear
+      return +d.origintime >= startYear
    })
    console.log(filteredEarthquakes)
    // draw earthquakes
