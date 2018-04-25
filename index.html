@@ -45,7 +45,6 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
         text-align: center;
         line-height: 1.6em;
       }
-
       #slider{
          width: 960px;
       }
@@ -55,7 +54,6 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
    <script type="text/javascript">
    $(function(){
      var handle = $("#custom-handle")
-
      $("#slider").slider({
        min: 1900,
        max: 2018,
@@ -66,7 +64,6 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
          handle.text(ui.value)
        }
      })
-
      $("#btnDraw").click(function(){
         drawEarthquakes($("#slider").slider("value"))
      })
@@ -117,7 +114,6 @@ d3.queue()
 .defer(d3.csv, 'data/ok_earthquakes.csv')
 .defer(d3.csv, 'data/injection_wells.csv')
 .await(dataLoaded)
-
 function dataLoaded(error, a, b, c) {
    state       = a
    earthquakes = b
@@ -152,7 +148,6 @@ function dataLoaded(error, a, b, c) {
       .attr("d", path)
       .attr("stroke","black")
    } // end dataLoaded()
-
 function drawEarthquakes(startYear) {
    console.log(startYear)
    // sort earthquakes
@@ -188,6 +183,9 @@ function drawEarthquakes(startYear) {
                     else{ return 0 } })
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag) })
+      .exit()
+      .remove()
+
       // draw wells
       svg.selectAll(".well")
         .data(wells)
