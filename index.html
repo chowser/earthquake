@@ -128,8 +128,9 @@ function dataLoaded(error, state, earthquakes, wells){
    // filter earthquakes with magnitude >= 3
    // this is the threshold in which earthquakes are felt
    // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
-   filteredEarthquakes = earthquakes.filter(function(d){return +d.prefmag >= 3})
-   console.log(filteredEarthquakes)
+   filteredEarthquakes = earthquakes.filter(function(d){
+      return +d.prefmag >= 3
+   })
 
    // calculate boundaries (for later use)
    var bounds = state.bbox
@@ -139,7 +140,7 @@ function dataLoaded(error, state, earthquakes, wells){
    var latitudeTop    = bounds[3]
 
    // define projection
-   projection = d3.geoMercator()
+   var projection = d3.geoMercator()
                    .fitSize([svgWidth,svgHeight],state)
 
    // define path generator
