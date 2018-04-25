@@ -158,7 +158,7 @@ function drawEarthquakes(startYear) {
    console.log(filteredEarthquakes)
 
    // remove existing earthquakes
-   svg.selectAll(".earthquake").remove()
+   svg.selectAll(".earthquakeCircle").remove()
 
    // draw earthquakes
    svg.selectAll(".earthquake")
@@ -183,7 +183,8 @@ function drawEarthquakes(startYear) {
                        return Math.pow(+d.prefmag,2.2) }
                     else{ return 0 } })
       .attr("stroke", "gray")
-      .attr("fill", function(d){ return color(+d.prefmag) })
+      .attr("fill", function(d){ return color(+d.prefmag)
+      .attr("id", "earthquakeCircle") })
 
       // draw wells
       svg.selectAll(".well")
