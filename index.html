@@ -150,8 +150,6 @@ var latitudeTop    = bounds[3]
 projection = d3.geoMercator()
                 .fitSize([svgWidth,svgHeight],state)
 
-console.log("Projection\n" + projection)
-
 // define path generator
 var path = d3.geoPath()
              .projection(projection)
