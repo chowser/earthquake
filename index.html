@@ -127,7 +127,7 @@ d3.queue()
 function dataLoaded(state, wells, earthquakes){
    // convert origin time from datetime to year using formatDate()
    // we only need the year for filtering
-   earthquakes = data.map(function(d){
+   earthquakes = earthquakes.map(function(d){
       d.origintime = formatDate(new Date(d.origintime))
       return d
    })
