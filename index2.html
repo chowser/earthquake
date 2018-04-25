@@ -1,5 +1,42 @@
 <!doctype html>
+<style>
 
+.ticks {
+  font: 10px sans-serif;
+}
+
+.track,
+.track-inset,
+.track-overlay {
+  stroke-linecap: round;
+}
+
+.track {
+  stroke: #000;
+  stroke-opacity: 0.3;
+  stroke-width: 10px;
+}
+
+.track-inset {
+  stroke: #ddd;
+  stroke-width: 8px;
+}
+
+.track-overlay {
+  pointer-events: stroke;
+  stroke-width: 50px;
+  stroke: transparent;
+  cursor: crosshair;
+}
+
+.handle {
+  fill: #fff;
+  stroke: #000;
+  stroke-opacity: 0.5;
+  stroke-width: 1.25px;
+}
+
+</style>
 <head>
    <script src="https://d3js.org/d3.v4.min.js"></script>
 </head>
@@ -52,17 +89,6 @@ var handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
     .attr("r", 9);
 
-slider.transition() // Gratuitous intro!
-    .duration(750)
-    .tween("hue", function() {
-      var i = d3.interpolate(0, 70);
-      return function(t) { hue(i(t)); };
-    });
-
-function hue(h) {
-  handle.attr("cx", x(h));
-  svg.style("background-color", d3.hsl(h, 0.8, 0.8));
-}
 
 </script>
 </html>
