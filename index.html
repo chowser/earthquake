@@ -149,7 +149,8 @@ function dataLoaded(error, a, b, c) {
       .attr("stroke","black")
    } // end dataLoaded()
 function drawEarthquakes(startYear) {
-   console.log(startYear)
+   // remove existing elements
+   svg.selectAll("*").remove()
    // sort earthquakes
    // earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
    // filter earthquakes from 2018
@@ -183,8 +184,6 @@ function drawEarthquakes(startYear) {
                     else{ return 0 } })
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag) })
-      .exit()
-      .remove()
 
       // draw wells
       svg.selectAll(".well")
