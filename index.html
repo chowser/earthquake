@@ -84,7 +84,7 @@ $( function() {
   })
 
   $("#btnDraw").click(function(){
-     drawMap()
+     drawEarthquakes()
   })
 })
 </script>
@@ -93,11 +93,33 @@ $( function() {
 <script type="text/javascript">
 // note: map points are formatted as [longitude,latitude]
 
+// load data
+d3.json('data/ok.json',function(data){
+   state = data
+})
+
+d3.csv('data/ok_earthquakes.csv',function(data){
+   // convert origin time from datetime to year using formatDate()
+   // we only need the year for filtering
+   earthquakes = data.map(function(d){
+      d.origintime = formatDate(new Date(d.origintime))
+      return d
+   })
+
+   // filter earthquakes with magnitude >= 3
+   // this is the threshold in which earthquakes are felt
+   earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
+})
+
+d3.csv('data/injection_wells.csv',function(data){
+   wells = data
+})
+
 // global variables
 var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
-var point, magnitude, startYear
+var point, magnitude, startYear, filteredEarthquakes
 
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
@@ -113,31 +135,6 @@ var svg = d3.select("#chart")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
             .attr("fill","white")
-
-// preload data with d3.queue() so map isn't generated before data is loaded
-d3.queue()
-.defer(d3.json, 'data/ok.json')
-.defer(d3.csv, 'data/ok_earthquakes.csv')
-.defer(d3.csv, 'data/injection_wells.csv')
-.await(drawMap)
-
-function drawMap(error, state, earthquakes, wells) {
-startYear = $("#slider").val()
-// convert origin time from datetime to year using formatDate()
-// we only need the year for filtering
-earthquakes = earthquakes.map(function(d){
-   d.origintime = formatDate(new Date(d.origintime))
-   return d
-})
-
-// sort earthquakes
-// earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
-
-// filter earthquakes with magnitude >= 3
-earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
-
-// filter earthquakes from 2018
-earthquakes = earthquakes.filter(function(d){ return +d.origintime >= startYear })
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
@@ -162,6 +159,16 @@ svg.selectAll("path")
    .attr("d", path)
    .attr("stroke","black")
 
+function drawEarthquakes() {
+startYear = $("#slider").val()
+// sort earthquakes
+// earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
+
+// filter earthquakes from 2018
+filteredEarthquakes = earthquakes.filter(function(d){
+   return +d.origintime >= startYear
+})
+
 // draw earthquakes
 svg.selectAll(".earthquake")
    .data(earthquakes)
@@ -183,17 +190,13 @@ svg.selectAll(".earthquake")
                  // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
                  if(+d.prefmag >= 3){
                     // preceding + converts string to int
-                    // return Math.log(+d.prefmag*2)*10 this sucks
+
+                    // scale magnitudes exponentially to provide
+                    // noticeable differentiation
                     return Math.pow(+d.prefmag,2.2) }
                  else{ return 0 } })
    .attr("stroke", "gray")
-   .attr("fill", function(d){
-                    return color(+d.prefmag) })
-/*
-   .attr("opacity", function(d){
-                       return opacity(+d.prefmag) })
-                       */
-   console.log("Done with earthquakes.")
+   .attr("fill", function(d){ return color(+d.prefmag) })
 
    // draw wells
    svg.selectAll(".well")
@@ -212,7 +215,6 @@ svg.selectAll(".earthquake")
                  })
      .attr("r", "1px")
      .attr("fill", "green")
-     console.log("Done with earthquakes.")
 } // end dataLoaded()
 </script>
 </html>
