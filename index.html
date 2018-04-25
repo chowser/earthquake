@@ -54,6 +54,8 @@ var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
 var point, magnitude
+
+// formatter for date objects
 var formatDate = d3.timeFormat("%Y")
 
 // color scale for earthquakes
@@ -84,13 +86,23 @@ d3.queue()
 .await(dataLoaded)
 
 function dataLoaded(error, state, earthquakes, wells) {
-console.log(state)
-console.log(state.features)
-console.log("Earthquakes Original\n" + earthquakes)
-// console.log("Earthquakes Sorted\n" + earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
-// console.log("Earthquakes Filtered\n" + earthquakes.filter(function(d){ return +d.prefmag >= 3 }))
+earthquakes = earthquakes.map(function(d){
+   return formatDate(new Date(d.origintime))
+})
+console.log(earthquakes)
+// console.log(state)
+// console.log(state.features)
+// console.log("Earthquakes Original\n" +
+// earthquakes)
 
-console.log("Earthquake Year\n" + formatDate(new Date(earthquakes[0].origintime)))
+// console.log("Earthquakes Sorted\n" +
+// earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
+
+// console.log("Earthquakes Filtered\n" +
+// earthquakes.filter(function(d){ return +d.prefmag >= 3 }))
+
+// convert string to date and format with formatDate()
+//console.log("Earthquake Year\n" + formatDate(new Date(earthquakes[0].origintime)))
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
