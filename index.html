@@ -58,6 +58,10 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
    <center>
       <div id="slider">
         <div id="custom-handle" class="ui-slider-handle"></div>
+        <br/>
+        <div>
+           <button  id="btnDraw" type="button">Create Map</button>
+        </div>
       </div>
       <div id="chart"></div>
    </center>
@@ -66,16 +70,21 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
 <!-- create slider -->
 <script type="text/javascript">
 $( function() {
-  var handle = $("#custom-handle");
+  var handle = $("#custom-handle")
+
   $("#slider").slider({
     min: 1900,
     max: 2018,
     create: function() {
-      handle.text( $(this).slider("value"));
+      handle.text( $(this).slider("value"))
     },
     slide: function(event, ui) {
-      handle.text(ui.value);
+      handle.text(ui.value)
     }
+  })
+
+  $("#btnDraw").click(function(){
+     drawMap()
   })
 })
 </script>
@@ -88,7 +97,7 @@ $( function() {
 var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
-var point, magnitude
+var point, magnitude, startYear
 
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
@@ -97,14 +106,6 @@ var formatDate = d3.timeFormat("%Y")
 var color = d3.scaleLinear()
               .domain([3, 6])
               .range(["yellow", "red"]);
-
-/*
-// opacity scale for earthquakes [doesn't look that great]
-var opacity = d3.scalePow()
-                .exponent(2)
-                .domain([0,10])
-                .range([0.3,0.8])
-*/
 
 // create SVG element
 var svg = d3.select("#chart")
@@ -118,9 +119,10 @@ d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv, 'data/ok_earthquakes.csv')
 .defer(d3.csv, 'data/injection_wells.csv')
-.await(dataLoaded)
+.await(drawMap)
 
-function dataLoaded(error, state, earthquakes, wells) {
+function drawMap(error, state, earthquakes, wells) {
+startYear = $("#slider").val()
 // convert origin time from datetime to year using formatDate()
 // we only need the year for filtering
 earthquakes = earthquakes.map(function(d){
@@ -135,7 +137,7 @@ earthquakes = earthquakes.map(function(d){
 earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
 
 // filter earthquakes from 2018
-earthquakes = earthquakes.filter(function(d){ return +d.origintime >= "1990" })
+earthquakes = earthquakes.filter(function(d){ return +d.origintime >= startYear })
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
