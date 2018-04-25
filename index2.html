@@ -7,21 +7,22 @@
 
    <script>
       $(function(){
-         $( "#slider" ).slider();
-         $( ".selector" ).slider({
+         $("#slider").slider();
+         $(".selector").slider({
             range: true,
             values: [1900,2018],
-            slide: function( event, ui ) {
-               $( "#amount" ).val( ui.value )
+            slide: function(event, ui) {
+               $("#amount").val( ui.value )
             }
          })
+         $("#amount").val($("#slider").slider("value"))
       })
    </script>
 
    <body>
       <div id="slider"></div>
       <div id="selectedValue">
-         <input type="text" id="amount">
+         <input type="text" id="amount"></input>
       </div>
    </body>
 </html>
