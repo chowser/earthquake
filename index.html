@@ -96,7 +96,7 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
 var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
-var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes, earthquakeCircles
+var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
 // color scale for earthquakes
@@ -109,13 +109,11 @@ var svg = d3.select("#chart")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
             .attr("fill","white")
-
 d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv, 'data/ok_earthquakes.csv')
 .defer(d3.csv, 'data/injection_wells.csv')
 .await(dataLoaded)
-
 function dataLoaded(error, a, b, c) {
    state       = a
    earthquakes = b
@@ -129,7 +127,7 @@ function dataLoaded(error, a, b, c) {
    // filter earthquakes with magnitude >= 3
    // this is the threshold in which earthquakes are felt
    filteredEarthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
-
+   console.log(filteredEarthquakes)
    // calculate boundaries (for later use)
    var bounds = state.bbox
    var longitudeLeft  = bounds[0]
@@ -150,20 +148,21 @@ function dataLoaded(error, a, b, c) {
       .attr("d", path)
       .attr("stroke","black")
    } // end dataLoaded()
-
 function drawEarthquakes(startYear) {
+   console.log(startYear)
    // sort earthquakes
    // earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
    // filter earthquakes from 2018
    filteredEarthquakes = earthquakes.filter(function(d){
       return +d.origintime >= startYear
    })
-
+   console.log(filteredEarthquakes)
    // draw earthquakes
-   earthquakeCircles = svg.selectAll("circle")
+   svg.selectAll(".earthquake")
       .data(filteredEarthquakes)
-
-   earthquakeCircles.enter()
+            //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
+               //console.log(earthquakes) })
+      .enter()
       .append("circle")
       // +d.LONG converts string to integer
       .attr("cx", function(d){
@@ -183,10 +182,9 @@ function drawEarthquakes(startYear) {
                        return Math.pow(+d.prefmag,2.2) }
                     else{ return 0 } })
       .attr("stroke", "gray")
-      .attr("fill", function(d){ return color(+d.prefmag)})
-
-      earthquakeCircles.exit()
-
+      .attr("fill", function(d){ return color(+d.prefmag) })
+      .exit()
+      .remove()
       // draw wells
       svg.selectAll(".well")
         .data(wells)
