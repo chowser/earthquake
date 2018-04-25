@@ -121,9 +121,9 @@ d3.queue()
 .await(dataLoaded)
 
 function dataLoaded(error, a, b, c) {
-   state = a
+   state       = a
    earthquakes = b
-   wells = c
+   wells       = c
    // convert origin time from datetime to year using formatDate()
    // we only need the year for filtering
    earthquakes = earthquakes.map(function(d){
@@ -133,7 +133,7 @@ function dataLoaded(error, a, b, c) {
 
    // filter earthquakes with magnitude >= 3
    // this is the threshold in which earthquakes are felt
-   earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
+   filteredEarthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
 
    // calculate boundaries (for later use)
    var bounds = state.bbox
@@ -166,7 +166,7 @@ function dataLoaded(error, a, b, c) {
 
    // filter earthquakes from 2018
    filteredEarthquakes = earthquakes.filter(function(d){
-      return +d.origintime >= startYear
+      return +d.origintime >= +startYear
    })
 
    // draw earthquakes
