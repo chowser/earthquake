@@ -5,8 +5,12 @@
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script>
   $( function() {
-    $( "#slider" ).slider();
-  } );
+    $( "#slider" ).slider()
+    $( ".selector" ).slider({
+       range: true,
+       values: [1900,2018]
+    });
+  });
   </script>
   <body>
      <div id="slider"></div>
