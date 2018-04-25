@@ -168,7 +168,7 @@ function drawEarthquakes(startYear) {
          // scale magnitudes exponentially to provide
          // noticeable differentiation
          return Math.pow(+d.prefmag,2.2)
-      )}
+      })
       .attr("stroke", "gray")
       .attr("fill", function(d){
          return color(+d.prefmag)
