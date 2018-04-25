@@ -116,89 +116,93 @@ d3.queue()
 .defer(d3.csv, 'data/injection_wells.csv')
 .await(dataLoaded)
 
-// once data is loaded...
-function dataLoaded(error, state, earthquakes, wells){
-   // convert origin time from datetime to year using formatDate()
-   // we only need the year for filtering
-   earthquakes = earthquakes.map(function(d){
-      d.origintime = formatDate(new Date(d.origintime))
-      return d
-   })
+// once data is loaded, set global variables
+function dataLoaded(error, a, b, c){
+   state = a
+   earthquakes = b
+   wells = c
+} // end dataLoaded()
 
-   // filter earthquakes with magnitude >= 3
-   // this is the threshold in which earthquakes are felt
-   // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
+// convert origin time from datetime to year using formatDate()
+// we only need the year for filtering
+earthquakes = earthquakes.map(function(d){
+   d.origintime = formatDate(new Date(d.origintime))
+   return d
+})
+
+// filter earthquakes with magnitude >= 3
+// this is the threshold in which earthquakes are felt
+// see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
+filteredEarthquakes = earthquakes.filter(function(d){
+   return +d.prefmag >= 3
+})
+
+// calculate boundaries (for later use)
+var bounds = state.bbox
+var longitudeLeft  = bounds[0]
+var latitudeBottom = bounds[1]
+var longitudeRight = bounds[2]
+var latitudeTop    = bounds[3]
+
+// define projection
+var projection = d3.geoMercator()
+                .fitSize([svgWidth,svgHeight],state)
+
+// define path generator
+var path = d3.geoPath()
+             .projection(projection)
+
+// draw state (bind data and create one path per GeoJSON feature)
+svg.selectAll("path")
+   .data(state.features)
+   .enter()
+   .append("path")
+   .attr("d", path)
+   .attr("stroke","black")
+
+function drawEarthquakes(startYear) {
+   // filter earthquakes by year selected with slider
    filteredEarthquakes = earthquakes.filter(function(d){
-      return +d.prefmag >= 3
+      return +d.origintime >= startYear
    })
 
-   // calculate boundaries (for later use)
-   var bounds = state.bbox
-   var longitudeLeft  = bounds[0]
-   var latitudeBottom = bounds[1]
-   var longitudeRight = bounds[2]
-   var latitudeTop    = bounds[3]
-
-   // define projection
-   var projection = d3.geoMercator()
-                   .fitSize([svgWidth,svgHeight],state)
-
-   // define path generator
-   var path = d3.geoPath()
-                .projection(projection)
-
-   // draw state (bind data and create one path per GeoJSON feature)
-   svg.selectAll("path")
-      .data(state.features)
-      .enter()
-      .append("path")
-      .attr("d", path)
-      .attr("stroke","black")
-
-   function drawEarthquakes(startYear) {
-      // filter earthquakes by year selected with slider
-      filteredEarthquakes = earthquakes.filter(function(d){
-         return +d.origintime >= startYear
-      })
-
-      // draw earthquakes
-      svg.selectAll(".earthquake")
-      .data(filteredEarthquakes)
-      .enter()
-      .append("circle")
-      .attr("cx", function(d){
-         return projection([+d.longitude,+d.latitude])[0]
-      })
-      .attr("cy", function(d){
-         return projection([+d.longitude,+d.latitude])[1]
-      })
-      .attr("r", function(d){
-         // scale magnitudes exponentially for better differentiation
-         return Math.pow(+d.prefmag,2.2)
-      })
-      .attr("stroke", "gray")
-      .attr("fill", function(d){
-         return color(+d.prefmag)
-      })
-   } // end drawEarthquakes()
-
-   // draw wells
-   svg.selectAll(".well")
-   .data(wells)
+   // draw earthquakes
+   svg.selectAll(".earthquake")
+   .data(filteredEarthquakes)
    .enter()
    .append("circle")
-   .attr("cx", function(d) {
-                 // preceding + converts string to int
-                 point = [+d.LONG,+d.LAT]
-                 return projection(point)[0]
-              })
-   .attr("cy", function(d) {
-                 // preceding + converts string to int
-                 point = [+d.LONG,+d.LAT]
-                 return projection(point)[1]
-              })
-   .attr("r", "1px")
-   .attr("fill", "green")
-} // end dataLoaded()
+   .attr("cx", function(d){
+      return projection([+d.longitude,+d.latitude])[0]
+   })
+   .attr("cy", function(d){
+      return projection([+d.longitude,+d.latitude])[1]
+   })
+   .attr("r", function(d){
+      // scale magnitudes exponentially for better differentiation
+      return Math.pow(+d.prefmag,2.2)
+   })
+   .attr("stroke", "gray")
+   .attr("fill", function(d){
+      return color(+d.prefmag)
+   })
+} // end drawEarthquakes()
+
+// draw wells
+svg.selectAll(".well")
+.data(wells)
+.enter()
+.append("circle")
+.attr("cx", function(d) {
+              // preceding + converts string to int
+              point = [+d.LONG,+d.LAT]
+              return projection(point)[0]
+           })
+.attr("cy", function(d) {
+              // preceding + converts string to int
+              point = [+d.LONG,+d.LAT]
+              return projection(point)[1]
+           })
+.attr("r", "1px")
+.attr("fill", "green")
 </script>
 </html>
