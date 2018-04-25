@@ -153,10 +153,9 @@ function drawEarthquakes(startYear) {
       return +d.origintime >= startYear
    })
 
-   var g1 = svg.append("g")
+   var earthquakeCircles = svg.selectAll("earthquake")
       .data(filteredEarthquakes)
-
-   g1.enter()
+      .enter()
       .append("circle")
       .attr("cx", function(d){
          return projection([+d.longitude,+d.latitude])[0]
@@ -173,25 +172,30 @@ function drawEarthquakes(startYear) {
       .attr("fill", function(d){
          return color(+d.prefmag)
       })
+      .merge()
 
-   // draw wells
-      var g2 = svg.append("g")
+      earthquakeCircles.exit().remove()
+
+      // draw wells
+      var wellCircles = svg.selectAll("well")
          .data(wells)
+         .enter()
+         .append("circle")
+         .attr("cx", function(d) {
+            // preceding + converts string to int
+            point = [+d.LONG,+d.LAT]
+            return projection(point)[0]
+         })
+         .attr("cy", function(d) {
+            // preceding + converts string to int
+            point = [+d.LONG,+d.LAT]
+            return projection(point)[1]
+         })
+         .attr("r", "1px")
+         .attr("fill", "green")
+         .merge()
 
-      g2.enter()
-        .append("circle")
-        .attr("cx", function(d) {
-           // preceding + converts string to int
-           point = [+d.LONG,+d.LAT]
-           return projection(point)[0]
-        })
-        .attr("cy", function(d) {
-           // preceding + converts string to int
-           point = [+d.LONG,+d.LAT]
-           return projection(point)[1]
-        })
-        .attr("r", "1px")
-        .attr("fill", "green")
+      wellCircles.exit().remove()
 } // end drawEarthquakes()
 </script>
 </html>
