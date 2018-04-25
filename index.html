@@ -44,12 +44,12 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
    <style>
       #custom-handle {
-        width: 3em;
-        height: 1.6em;
-        top: 50%;
-        margin-top: -.8em;
-        text-align: center;
-        line-height: 1.6em;
+        width: 3em
+        height: 1.6em
+        top: 50%
+        margin-top: -.8em
+        text-align: center
+        line-height: 1.6em
       }
    </style>
 </head>
@@ -105,7 +105,7 @@ var formatDate = d3.timeFormat("%Y")
 // color scale for earthquakes
 var color = d3.scaleLinear()
               .domain([3, 6])
-              .range(["yellow", "red"]);
+              .range(["yellow", "red"])
 
 // create SVG element
 var svg = d3.select("#chart")
@@ -116,8 +116,8 @@ var svg = d3.select("#chart")
 
 // load data
 d3.queue()
-.defer(d3.json,"/data/");
-.defer(d3.csv,"/data/");
+.defer(d3.json,"/data/")
+.defer(d3.csv,"/data/")
 .defer(d3.csv,"/data/")
 .await(function(error) {
   if (error) throw error
@@ -159,7 +159,7 @@ var dataLoaded(){
       .append("path")
       .attr("d", path)
       .attr("stroke","black")
-   } // end dataLoaded();
+   } // end dataLoaded()
 
    function drawEarthquakes() {
    startYear = $("#slider").val()
