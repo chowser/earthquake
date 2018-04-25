@@ -166,42 +166,35 @@ function drawEarthquakes(startYear) {
    })
    console.log(filteredEarthquakes)
    // draw earthquakes
+   var earthquakeCircles = g.selectAll(".earthquake")
+      .data(filteredEarthquakes)
+            //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
+            //console.log(earthquakes) })
 
-   function update(data){
-      var earthquakeCircles = g.selectAll(".earthquake")
-         .data(data)
-               //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
-               //console.log(earthquakes) })
+   earthquakeCircles.enter()
+      .append("circle")
+      // +d.LONG converts string to integer
+      .attr("cx", function(d){
+                     // preceding + converts string to int
+                     return projection([+d.longitude,+d.latitude])[0] })
+      // +d.LAT converts string to integer
+      .attr("cy", function(d){
+                     // preceding + converts string to int
+                     return projection([+d.longitude,+d.latitude])[1] })
+      .attr("r", function(d){
+                    // only return earthquakes that can be felt
+                    // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
+                    if(+d.prefmag >= 3){
+                       // preceding + converts string to int
+                       // scale magnitudes exponentially to provide
+                       // noticeable differentiation
+                       return Math.pow(+d.prefmag,2.2) }
+                    else{ return 0 } })
+      .attr("stroke", "gray")
+      .attr("fill", function(d){ return color(+d.prefmag) })
+      .exit()
+      .remove()
 
-      earthquakeCircles.attr("class","update")
-      earthquakeCircles.enter()
-         .append("circle")
-         // +d.LONG converts string to integer
-         .attr("cx", function(d){
-                        // preceding + converts string to int
-                        return projection([+d.longitude,+d.latitude])[0] })
-         // +d.LAT converts string to integer
-         .attr("cy", function(d){
-                        // preceding + converts string to int
-                        return projection([+d.longitude,+d.latitude])[1] })
-         .attr("r", function(d){
-                       // only return earthquakes that can be felt
-                       // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
-                       if(+d.prefmag >= 3){
-                          // preceding + converts string to int
-                          // scale magnitudes exponentially to provide
-                          // noticeable differentiation
-                          return Math.pow(+d.prefmag,2.2) }
-                       else{ return 0 } })
-         .attr("stroke", "gray")
-         .attr("fill", function(d){ return color(+d.prefmag) })
-         .merge(earthquakeCircles)
-
-      earthquakeCircles.exit().remove()
-   }
-
-
-   update(filteredEarthquakes)
       // draw wells
       svg.selectAll(".well")
         .data(wells)
