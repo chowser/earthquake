@@ -110,74 +110,72 @@ var svg = d3.select("#chart")
             .attr("height", svgHeight)
             .attr("fill","white")
 
-// preload data from files
-d3.queue()
-.defer(d3.json, 'data/ok.json')
-.defer(d3.csv, 'data/ok_earthquakes.csv')
-.defer(d3.csv, 'data/injection_wells.csv')
-.await(dataLoaded)
+d3.json('data/ok.json',function(data){
+   state = data
+})
 
-// once data is loaded, set global variables
-function dataLoaded(error, a, b, c){
-   state = a
-   earthquakes = b
-   wells = c
+d3.csv('data/ok_earthquakes.csv',function(data){
+   earthquakes = data
+})
 
-   // convert origin time from datetime to year using formatDate()
-   // we only need the year for filtering
-   earthquakes = earthquakes.map(function(d){
-      d.origintime = formatDate(new Date(d.origintime))
-      return d
-   })
+d3.csv('data/injection_wells.csv',function(data){
+   wells = data
+})
 
-   // filter earthquakes with magnitude >= 3
-   // this is the threshold in which earthquakes are felt
-   // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
-   filteredEarthquakes = earthquakes.filter(function(d){
-      return +d.prefmag >= 3
-   })
+// convert origin time from datetime to year using formatDate()
+// we only need the year for filtering
+earthquakes = earthquakes.map(function(d){
+   d.origintime = formatDate(new Date(d.origintime))
+   return d
+})
 
-   // calculate boundaries (for later use)
-   var bounds = state.bbox
-   var longitudeLeft  = bounds[0]
-   var latitudeBottom = bounds[1]
-   var longitudeRight = bounds[2]
-   var latitudeTop    = bounds[3]
+// filter earthquakes with magnitude >= 3
+// this is the threshold in which earthquakes are felt
+// see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
+filteredEarthquakes = earthquakes.filter(function(d){
+   return +d.prefmag >= 3
+})
 
-   // define projection
-   projection = d3.geoMercator()
-                  .fitSize([svgWidth,svgHeight],state)
+// calculate boundaries (for later use)
+var bounds = state.bbox
+var longitudeLeft  = bounds[0]
+var latitudeBottom = bounds[1]
+var longitudeRight = bounds[2]
+var latitudeTop    = bounds[3]
 
-   // define path generator
-   path = d3.geoPath()
-            .projection(projection)
+// define projection
+projection = d3.geoMercator()
+               .fitSize([svgWidth,svgHeight],state)
 
-   // draw state (bind data and create one path per GeoJSON feature)
-   svg.selectAll("path")
-      .data(state.features)
-      .enter()
-      .append("path")
-      .attr("d", path)
-      .attr("stroke","black")
+// define path generator
+path = d3.geoPath()
+         .projection(projection)
 
-   // draw wells
-   svg.selectAll(".well")
-   .data(wells)
+// draw state (bind data and create one path per GeoJSON feature)
+svg.selectAll("path")
+   .data(state.features)
    .enter()
-   .append("circle")
-   .attr("cx", function(d) {
-                 // preceding + converts string to int
-                 point = [+d.LONG,+d.LAT]
-                 return projection(point)[0]
-              })
-   .attr("cy", function(d) {
-                 // preceding + converts string to int
-                 point = [+d.LONG,+d.LAT]
-                 return projection(point)[1]
-              })
-   .attr("r", "1px")
-   .attr("fill", "green")
-} // end dataLoaded()
+   .append("path")
+   .attr("d", path)
+   .attr("stroke","black")
+
+// draw wells
+svg.selectAll(".well")
+.data(wells)
+.enter()
+.append("circle")
+.attr("cx", function(d) {
+              // preceding + converts string to int
+              point = [+d.LONG,+d.LAT]
+              return projection(point)[0]
+           })
+.attr("cy", function(d) {
+              // preceding + converts string to int
+              point = [+d.LONG,+d.LAT]
+              return projection(point)[1]
+           })
+.attr("r", "1px")
+.attr("fill", "green")
 
 function drawEarthquakes(startYear) {
    // filter earthquakes by year selected with slider
@@ -205,6 +203,5 @@ function drawEarthquakes(startYear) {
       return color(+d.prefmag)
    })
 } // end drawEarthquakes()
-
 </script>
 </html>
