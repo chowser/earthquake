@@ -93,6 +93,7 @@ var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
 var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes
+    projection, path
 
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
@@ -144,12 +145,12 @@ function dataLoaded(error, a, b, c){
    var latitudeTop    = bounds[3]
 
    // define projection
-   var projection = d3.geoMercator()
-                   .fitSize([svgWidth,svgHeight],state)
+   projection = d3.geoMercator()
+                  .fitSize([svgWidth,svgHeight],state)
 
    // define path generator
-   var path = d3.geoPath()
-                .projection(projection)
+   path = d3.geoPath()
+            .projection(projection)
 
    // draw state (bind data and create one path per GeoJSON feature)
    svg.selectAll("path")
@@ -204,7 +205,6 @@ function drawEarthquakes(startYear) {
       return color(+d.prefmag)
    })
 } // end drawEarthquakes()
-
 
 </script>
 </html>
