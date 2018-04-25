@@ -86,10 +86,10 @@ function dataLoaded(error, state, earthquakes, wells) {
 console.log(state)
 console.log(state.features)
 console.log("Earthquakes Original\n" + earthquakes)
-console.log("Earthquakes Sorted\n" + earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
-console.log("Earthquakes Filtered\n" + earthquakes.filter(function(d){ return +d.prefmag >= 3 }))
-var date = new Date(earthquakes[1].origintime)
-console.log("Earthquake Year\n" + date.getFullYear())
+// console.log("Earthquakes Sorted\n" + earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
+// console.log("Earthquakes Filtered\n" + earthquakes.filter(function(d){ return +d.prefmag >= 3 }))
+
+console.log("Earthquake Year\n" + date.getFullYear(earthquakes[0].origintime))
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
