@@ -199,6 +199,7 @@ function drawEarthquakes(startYear) {
                     else{ return 0 } })
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag) })
+      .exit()
 
    wellCircles = svg.append("g")
      .data(wells)
@@ -217,6 +218,7 @@ function drawEarthquakes(startYear) {
                  })
      .attr("r", "1px")
      .attr("fill", "green")
+     .exit()
    } // end drawEarthquakes()
 </script>
 </html>
