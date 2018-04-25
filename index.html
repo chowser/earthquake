@@ -134,6 +134,7 @@ function dataLoaded(error, a, b, c) {
    // filter earthquakes with magnitude >= 3
    // this is the threshold in which earthquakes are felt
    filteredEarthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
+   console.log(filteredEarthquakes)
 
    // calculate boundaries (for later use)
    var bounds = state.bbox
@@ -168,10 +169,11 @@ function dataLoaded(error, a, b, c) {
    filteredEarthquakes = earthquakes.filter(function(d){
       return +d.origintime >= +startYear
    })
+   console.log(filteredEarthquakes)
 
    // draw earthquakes
    svg.selectAll(".earthquake")
-      .data(earthquakes)
+      .data(filteredAarthquakes)
             //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
                //console.log(earthquakes) })
       .enter()
