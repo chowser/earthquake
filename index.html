@@ -149,8 +149,6 @@ function dataLoaded(error, a, b, c) {
       .attr("stroke","black")
    } // end dataLoaded()
 function drawEarthquakes(startYear) {
-   // remove existing elements
-   svg.selectAll("*").remove()
    // sort earthquakes
    // earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
    // filter earthquakes from 2018
@@ -158,11 +156,13 @@ function drawEarthquakes(startYear) {
       return +d.origintime >= startYear
    })
    console.log(filteredEarthquakes)
+
+   // remove existing earthquakes
+   svg.selectAll(".earthquake").remove()
+
    // draw earthquakes
    svg.selectAll(".earthquake")
       .data(filteredEarthquakes)
-            //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
-               //console.log(earthquakes) })
       .enter()
       .append("circle")
       // +d.LONG converts string to integer
