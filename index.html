@@ -92,19 +92,15 @@ earthquakes = earthquakes.map(function(d){
    d.origintime = formatDate(new Date(d.origintime))
    return d
 })
-console.log(earthquakes)
-// console.log(state)
-// console.log(state.features)
-// console.log("Earthquakes Original\n" +
-// earthquakes)
 
-// console.log("Earthquakes Sorted\n" +
-// earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
+// sort earthquakes
+// earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
 
-// console.log("Earthquakes Filtered\n" +
-// earthquakes.filter(function(d){ return +d.origintime == "2018" })[0].origintime)
+// filter earthquakes with magnitude >= 3
 earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
-earthquakes = earthquakes.filter(function(d){ return +d.origintime == "2018" })
+
+// filter earthquakes from 2018
+// earthquakes = earthquakes.filter(function(d){ return +d.origintime == "2018" })
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
