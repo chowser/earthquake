@@ -100,7 +100,7 @@ earthquakes = earthquakes.map(function(d){
 earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
 
 // filter earthquakes from 2018
-// earthquakes = earthquakes.filter(function(d){ return +d.origintime == "2018" })
+earthquakes = earthquakes.filter(function(d){ return +d.origintime == "1990" })
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
