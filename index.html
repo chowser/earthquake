@@ -38,14 +38,37 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
 <head>
    <script src="https://d3js.org/d3.v4.min.js"></script>
    <script src="https://d3js.org/topojson.v2.min.js"></script>
+   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 
 <body>
    <center>
+      <div id="slider">
+        <div id="custom-handle" class="ui-slider-handle"></div>
+      </div>
       <div id="chart"></div>
    </center>
 </body>
 
+<!-- create slider -->
+<script type="text/text/javascript">
+$( function() {
+  var handle = $("#custom-handle");
+  $("#slider").slider({
+    min: 1900,
+    max: 2018,
+    create: function() {
+      handle.text( $(this).slider("value"));
+    },
+    slide: function(event, ui) {
+      handle.text(ui.value);
+    }
+  })
+})
+</script>
+
+<!-- create chart -->
 <script type="text/javascript">
 // note: map points are formatted as [longitude,latitude]
 
