@@ -176,10 +176,9 @@ function drawEarthquakes(startYear) {
    // setup the chart
    earthquakeCircles = svg.append("g")
    .data(filteredEarthquakes)
+   .enter()
 
    earthquakeCircles.append("circle")
-      .enter()
-
       // +d.LONG converts string to integer
       .attr("cx", function(d){
                      // preceding + converts string to int
@@ -201,23 +200,23 @@ function drawEarthquakes(startYear) {
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag) })
 
-      wellCircles = svg.append("g")
-        .data(wells)
+   wellCircles = svg.append("g")
+     .data(wells)
+     .enter()
 
-      wellCircles.append("circle")
-        .enter()
-        .attr("cx", function(d) {
-                       // preceding + converts string to int
-                       point = [+d.LONG,+d.LAT]
-                       return projection(point)[0]
-                    })
-        .attr("cy", function(d) {
-                       // preceding + converts string to int
-                       point = [+d.LONG,+d.LAT]
-                       return projection(point)[1]
-                    })
-        .attr("r", "1px")
-        .attr("fill", "green")
+   wellCircles.append("circle")
+     .attr("cx", function(d) {
+                    // preceding + converts string to int
+                    point = [+d.LONG,+d.LAT]
+                    return projection(point)[0]
+                 })
+     .attr("cy", function(d) {
+                    // preceding + converts string to int
+                    point = [+d.LONG,+d.LAT]
+                    return projection(point)[1]
+                 })
+     .attr("r", "1px")
+     .attr("fill", "green")
    } // end drawEarthquakes()
 </script>
 </html>
