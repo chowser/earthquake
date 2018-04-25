@@ -188,9 +188,6 @@ function drawEarthquakes(startYear) {
                     else{ return 0 } })
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag) })
-      .exit()
-      .remove()
-      
       // draw wells
       svg.selectAll(".well")
         .data(wells)
