@@ -84,6 +84,7 @@ $( function() {
   })
 
   $("#btnDraw").click(function(){
+     console.log($("#slider").slider("value"))
      drawEarthquakes()
   })
 })
@@ -160,7 +161,7 @@ function dataLoaded(error, a, b, c) {
       .attr("stroke","black")
    } // end dataLoaded()
 
-   function drawEarthquakes() {
+function drawEarthquakes() {
    startYear = $("#slider").val()
    console.log(startYear)
    // sort earthquakes
