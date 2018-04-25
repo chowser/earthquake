@@ -155,7 +155,6 @@ function drawEarthquakes(startYear) {
 
    // create group for ok_earthquakes
    var earthquakeGroup = svg.append("g")
-      .attr("transform", "translate(0,0)")
       .data(filteredEarthquakes)
       .enter()
 
