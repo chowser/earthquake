@@ -131,7 +131,10 @@ d3.queue()
 .defer(d3.csv, 'data/injection_wells.csv')
 .await(dataLoaded)
 
-function dataLoaded(error, state, earthquakes, wells) {
+function dataLoaded(error, a, b, c) {
+   state = a
+   wells = b
+   earthquakes = c
    // convert origin time from datetime to year using formatDate()
    // we only need the year for filtering
    earthquakes = earthquakes.map(function(d){
