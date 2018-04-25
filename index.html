@@ -37,7 +37,7 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
 
    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
    <style>
-      #custom-handle {
+      #custom-handle{
         width: 3em
         height: 1.6em
         top: 50%
@@ -45,20 +45,23 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
         text-align: center
         line-height: 1.6em
       }
+
+      #slider{
+         width: 960px
+      }
    </style>
 </head>
 
 <body>
    <center>
-      <div width="960">
       <div id="slider">
-        <div id="custom-handle" class="ui-slider-handle"></div>
+         <div id="custom-handle" class="ui-slider-handle"></div>
       </div>
-        <br/>
-        <div>
-           <button  id="btnDraw" type="button">Create Map</button>
-        </div>
-     </div>
+         <br/>
+      <div>
+         <button  id="btnDraw" type="button">Create Map</button>
+      </div>
+
 
       <div id="chart"></div>
    </center>
