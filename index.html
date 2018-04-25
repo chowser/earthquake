@@ -93,6 +93,12 @@ $( function() {
 <script type="text/javascript">
 // note: map points are formatted as [longitude,latitude]
 
+// global variables
+var svgWidth  = 960
+var svgHeight = 500
+var padding   = 20
+var point, magnitude, startYear, filteredEarthquakes
+
 // load data
 d3.json('data/ok.json',function(data){
    state = data
@@ -114,12 +120,6 @@ d3.csv('data/ok_earthquakes.csv',function(data){
 d3.csv('data/injection_wells.csv',function(data){
    wells = data
 })
-
-// global variables
-var svgWidth  = 960
-var svgHeight = 500
-var padding   = 20
-var point, magnitude, startYear, filteredEarthquakes
 
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
