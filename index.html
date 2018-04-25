@@ -102,6 +102,7 @@ var point, magnitude, startYear, filteredEarthquakes
 // load data
 d3.json('data/ok.json',function(data){
    state = data
+   console.log(state)
 })
 
 d3.csv('data/ok_earthquakes.csv',function(data){
