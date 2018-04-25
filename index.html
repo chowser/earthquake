@@ -87,7 +87,8 @@ d3.queue()
 
 function dataLoaded(error, state, earthquakes, wells) {
 earthquakes = earthquakes.map(function(d){
-   return formatDate(new Date(d.origintime))
+   d.origintime = formatDate(new Date(d.origintime))
+   return d
 })
 console.log(earthquakes)
 // console.log(state)
