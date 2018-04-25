@@ -161,10 +161,6 @@ function dataLoaded(error, a, b, c) {
    } // end dataLoaded()
 
 function drawEarthquakes(startYear) {
-   console.log(startYear)
-
-
-
    // sort earthquakes
    // earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
 
@@ -179,11 +175,11 @@ function drawEarthquakes(startYear) {
 
    // setup the chart
    earthquakeCircles = svg.append("g")
-   .data(filteredEarthquakes)
-   .enter()
 
-   // draw earthquakes
-   earthquakeCircles.append("circle")
+   earthquakeCircles.selectAll(".circle")
+      .data(filteredEarthquakes)
+      .enter()
+
       // +d.LONG converts string to integer
       .attr("cx", function(d){
                      // preceding + converts string to int
