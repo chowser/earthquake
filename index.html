@@ -100,6 +100,7 @@ var svg = d3.select("#chart")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
             .attr("fill","white")
+
 d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv,  'data/ok_earthquakes.csv')
@@ -152,11 +153,14 @@ function drawEarthquakes(startYear) {
       return +d.origintime >= startYear
    })
 
-   // draw earthquakes
-   svg.selectAll(".earthquake")
+   // create group for ok_earthquakes
+   var earthquakeGroup = svg.append("g")
+      .attr("transform", "translate(0,0)")
       .data(filteredEarthquakes)
       .enter()
-      .append("circle")
+
+   // draw earthquakes
+   earthquakeGroup.append("circle")
       .attr("cx", function(d){
          return projection([+d.longitude,+d.latitude])[0]
       })
