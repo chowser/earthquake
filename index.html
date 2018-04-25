@@ -116,15 +116,15 @@ var svg = d3.select("#chart")
 
 // load data
 d3.queue()
-.defer(d3.json,"/data/")
-.defer(d3.csv,"/data/")
-.defer(d3.csv,"/data/")
+.defer(d3.json,"data/ok.json")
+.defer(d3.csv,"data/injection_wells.csv")
+.defer(d3.csv,"data/ok_earthquakes.csv")
 .await(function(error) {
   if (error) throw error
   dataLoaded()
 })
 
-function dataLoaded(){
+function dataLoaded(state, wells, earthquakes){
    // convert origin time from datetime to year using formatDate()
    // we only need the year for filtering
    earthquakes = data.map(function(d){
