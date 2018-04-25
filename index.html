@@ -96,7 +96,7 @@ https://www.census.gov/cgi-bin/geo/shapefiles/index.php
 var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
-var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes
+var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes, earthquakeCircles
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
 // color scale for earthquakes
@@ -160,7 +160,7 @@ function drawEarthquakes(startYear) {
    })
 
    // draw earthquakes
-   var earthquakeCircles = svg.selectAll(".earthquake")
+   earthquakeCircles = svg.selectAll(".earthquake")
       .data(filteredEarthquakes)
 
    earthquakeCircles.enter()
