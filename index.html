@@ -33,13 +33,19 @@ http://pnavarrc.github.io/talk-d3-charts/earthquake.html
 download cencus tracts:
 https://www.census.gov/cgi-bin/geo/shapefiles/index.php
 -->
-<!DOCTYPE html>
-<head>
+<!doctype html>
 
+<head>
+   <script src="https://d3js.org/d3.v4.min.js"></script>
+   <script src="https://d3js.org/topojson.v2.min.js"></script>
 </head>
-<body></body>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://d3js.org/topojson.v2.min.js"></script>
+
+<body>
+   <center>
+      <div id="chart"></div>
+   </center>
+</body>
+
 <script type="text/javascript">
 // note: map points are formatted as [longitude,latitude]
 
@@ -55,7 +61,7 @@ var color = d3.scaleLinear()
               .range(["yellow", "red"]);
 
 /*
-// opacity scale for earthquakes
+// opacity scale for earthquakes [doesn't look that great]
 var opacity = d3.scalePow()
                 .exponent(2)
                 .domain([0,10])
@@ -63,7 +69,7 @@ var opacity = d3.scalePow()
 */
 
 // create SVG element
-var svg = d3.select("body")
+var svg = d3.select("#chart")
             .append("svg")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
