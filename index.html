@@ -101,7 +101,7 @@ console.log(earthquakes)
 // console.log("Earthquakes Sorted\n" +
 // earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
 
-console.log("Earthquakes Filtered\n" +
+// console.log("Earthquakes Filtered\n" +
 // earthquakes.filter(function(d){ return +d.origintime == "2018" })[0].origintime)
 earthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
 earthquakes = earthquakes.filter(function(d){ return +d.origintime == "2018" })
