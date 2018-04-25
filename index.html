@@ -112,6 +112,9 @@ var svg = d3.select("#chart")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
             .attr("fill","white")
+
+var g = svg.append("g")
+
 d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv, 'data/ok_earthquakes.csv')
@@ -163,11 +166,12 @@ function drawEarthquakes(startYear) {
    })
    console.log(filteredEarthquakes)
    // draw earthquakes
-   svg.selectAll(".earthquake")
+   var earthquakeCircles = g.selectAll(".earthquake")
       .data(filteredEarthquakes)
             //.sort(function(a,b){ d3.descending(+a.prefmag,+b.prefmag) })
-               //console.log(earthquakes) })
-      .enter()
+            //console.log(earthquakes) })
+
+   earthquakeCircles.enter()
       .append("circle")
       // +d.LONG converts string to integer
       .attr("cx", function(d){
@@ -190,7 +194,7 @@ function drawEarthquakes(startYear) {
       .attr("fill", function(d){ return color(+d.prefmag) })
       .exit()
       .remove()
-      
+
       // draw wells
       svg.selectAll(".well")
         .data(wells)
