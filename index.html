@@ -115,6 +115,7 @@ d3.queue()
 .defer(d3.csv, 'data/ok_earthquakes.csv')
 .defer(d3.csv, 'data/injection_wells.csv')
 .await(dataLoaded)
+
 function dataLoaded(error, a, b, c) {
    state       = a
    earthquakes = b
@@ -128,7 +129,7 @@ function dataLoaded(error, a, b, c) {
    // filter earthquakes with magnitude >= 3
    // this is the threshold in which earthquakes are felt
    filteredEarthquakes = earthquakes.filter(function(d){ return +d.prefmag >= 3 })
-   console.log(filteredEarthquakes)
+
    // calculate boundaries (for later use)
    var bounds = state.bbox
    var longitudeLeft  = bounds[0]
@@ -149,20 +150,20 @@ function dataLoaded(error, a, b, c) {
       .attr("d", path)
       .attr("stroke","black")
    } // end dataLoaded()
+
 function drawEarthquakes(startYear) {
-   d3.select("#earthquakeCircle").remove()
    // sort earthquakes
    // earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
    // filter earthquakes from 2018
    filteredEarthquakes = earthquakes.filter(function(d){
       return +d.origintime >= startYear
    })
-   console.log(filteredEarthquakes)
 
    // draw earthquakes
-   svg.selectAll(".earthquake")
+   var earthquakeCircles = svg.selectAll(".earthquake")
       .data(filteredEarthquakes)
-      .enter()
+
+   earthquakeCircles.enter()
       .append("circle")
       // +d.LONG converts string to integer
       .attr("cx", function(d){
@@ -184,6 +185,8 @@ function drawEarthquakes(startYear) {
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag)})
       .attr("id","earthquakeCircle")
+
+      earthquakeCircles.exit().remove()
 
       // draw wells
       svg.selectAll(".well")
