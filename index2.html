@@ -24,8 +24,8 @@
   $( function() {
     var handle = $("#custom-handle");
     $("#slider").slider({
-      range: true,
-      values: [1900,2018],
+      min: 1900,
+      max: 2018,
       create: function() {
         handle.text( $(this).slider("value"));
       },
