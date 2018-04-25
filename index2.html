@@ -10,12 +10,18 @@
          $( "#slider" ).slider();
          $( ".selector" ).slider({
             range: true,
-            values: [1900,2018]
+            values: [1900,2018],
+            slide: function( event, ui ) {
+               $( "#amount" ).val( ui.value )
+            }
          })
       })
    </script>
 
    <body>
       <div id="slider"></div>
+      <div id="selectedValue">
+         <input type="text" id="amount">
+      </div>
    </body>
 </html>
