@@ -123,7 +123,9 @@ function dataLoaded(error, a, b, c) {
    // filter earthquakes with magnitude >= 3
    // this is the threshold in which earthquakes are felt
    // see https://earthquake.usgs.gov/learn/topics/mag_vs_int.php
-   filteredEarthquakes = earthquakes.filter(function(d){return +d.prefmag >= 3})
+   earthquakes = earthquakes.filter(function(d){
+      return +d.prefmag >= 3
+   })
 
    // calculate boundaries (for later use)
    var bounds = state.bbox
