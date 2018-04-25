@@ -184,8 +184,7 @@ function drawEarthquakes(startYear) {
                        return Math.pow(+d.prefmag,2.2) }
                     else{ return 0 } })
       .attr("stroke", "gray")
-      .attr("fill", function(d){ return color(+d.prefmag)
-      .attr("id", "earthquakeCircle") })
+      .attr("fill", function(d){ return color(+d.prefmag)})
 
       // draw wells
       svg.selectAll(".well")
