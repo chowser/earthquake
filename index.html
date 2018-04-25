@@ -97,7 +97,7 @@ $( function() {
 var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
-var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes, earthquakeCircles
+var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes, earthquakeCircles, wellCircles
 
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
@@ -175,8 +175,9 @@ function drawEarthquakes(startYear) {
 
    // setup the chart
    earthquakeCircles = svg.append("g")
+   .data(filteredEarthquakes)
 
-   earthquakeCircles.selectAll(".circle")
+   earthquakeCircles.append("circle")
       .data(filteredEarthquakes)
       .enter()
 
@@ -201,11 +202,11 @@ function drawEarthquakes(startYear) {
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag) })
 
-      // draw wells
-      svg.selectAll(".well")
+      wellCircles = svg.append("g")
         .data(wells)
+
+      wellCircles.append("circle")
         .enter()
-        .append("circle")
         .attr("cx", function(d) {
                        // preceding + converts string to int
                        point = [+d.LONG,+d.LAT]
