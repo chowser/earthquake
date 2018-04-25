@@ -102,7 +102,7 @@ console.log(earthquakes)
 // earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
 
 console.log("Earthquakes Filtered\n" +
- earthquakes.filter(function(d){ return +d.origintime == "2018" }).origintime)
+ earthquakes.filter(function(d){ return +d.origintime == "2018" })[0].origintime)
 
 // calculate boundaries (for later use)
 var bounds = state.bbox
