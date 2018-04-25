@@ -114,17 +114,6 @@ var svg = d3.select("#chart")
             .attr("height", svgHeight)
             .attr("fill","white")
 
-
-
-// load data
-d3.queue()
-.defer(d3.json,"data/ok.json")
-.defer(d3.csv,"data/injection_wells.csv")
-.defer(d3.csv,"data/ok_earthquakes.csv")
-.await(function() {
-  dataLoaded()
-})
-
 d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv, 'data/ok_earthquakes.csv')
@@ -133,8 +122,8 @@ d3.queue()
 
 function dataLoaded(error, a, b, c) {
    state = a
-   wells = b
-   earthquakes = c
+   earthquakes = b
+   wells = c
    // convert origin time from datetime to year using formatDate()
    // we only need the year for filtering
    earthquakes = earthquakes.map(function(d){
