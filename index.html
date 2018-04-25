@@ -160,7 +160,7 @@ function drawEarthquakes(startYear) {
    })
 
    // draw earthquakes
-   earthquakeCircles = svg.selectAll(".earthquake")
+   earthquakeCircles = svg.selectAll("circle")
       .data(filteredEarthquakes)
 
    earthquakeCircles.enter()
@@ -184,9 +184,8 @@ function drawEarthquakes(startYear) {
                     else{ return 0 } })
       .attr("stroke", "gray")
       .attr("fill", function(d){ return color(+d.prefmag)})
-      .attr("id","earthquakeCircle")
 
-      earthquakeCircles.exit().remove()
+      earthquakeCircles.exit()
 
       // draw wells
       svg.selectAll(".well")
