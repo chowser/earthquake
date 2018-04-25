@@ -109,6 +109,9 @@ var svg = d3.select("#chart")
             .attr("width", svgWidth)
             .attr("height", svgHeight)
             .attr("fill","white")
+
+var g = svg.append("g")
+
 d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv, 'data/ok_earthquakes.csv')
@@ -149,6 +152,7 @@ function dataLoaded(error, a, b, c) {
       .attr("stroke","black")
    } // end dataLoaded()
 function drawEarthquakes(startYear) {
+   g.selectAll("*").remove()
    // sort earthquakes
    // earthquakes = earthquakes.sort(function(a,b){ d3.ascending(+a.prefmag,+b.prefmag) }))
    // filter earthquakes from 2018
@@ -156,9 +160,6 @@ function drawEarthquakes(startYear) {
       return +d.origintime >= startYear
    })
    console.log(filteredEarthquakes)
-
-   // remove existing earthquakes
-   svg.selectAll(".earthquakeCircle").remove()
 
    // draw earthquakes
    svg.selectAll(".earthquake")
