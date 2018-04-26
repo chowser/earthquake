@@ -23,47 +23,50 @@ http://www.occeweb.com/og/All_UIC_Wells.xls
 <!doctype html>
 
 <head>
-   <script src="https://d3js.org/d3.v4.min.js"></script>
-   <script src="https://d3js.org/topojson.v2.min.js"></script>
-   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script src="https://d3js.org/topojson.v2.min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
-   <link
-   rel="stylesheet"
-   href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-   <style>
-   #custom-handle{
-      width: 3em;
-      height: 1.6em;
-      top: 50%;
-      margin-top: -.8em;
-      text-align: center;
-      line-height: 1.6em;
-   }
-   #slider{
-      width: 960px;
-   }
-   </style>
+<link
+rel="stylesheet"
+href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link
+rel="stylesheet"
+href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+<style>
+#custom-handle{
+   width: 3em;
+   height: 1.6em;
+   top: 50%;
+   margin-top: -.8em;
+   text-align: center;
+   line-height: 1.6em;
+}
+#slider{
+   width: 960px;
+}
+</style>
 
-   <!-- create slider -->
-   <script type="text/javascript">
-   $(function(){
-      var handle = $("#custom-handle")
-      $("#slider").slider({
-         min: 1900,
-         max: 2018,
-         create: function() {
-            handle.text($(this).slider("value"))
-         },
-         slide: function(event, ui) {
-            handle.text(ui.value)
-         }
-      })
-      $("#btnDraw").click(function(){
-         drawEarthquakes($("#slider").slider("value"))
-      })
+<!-- create slider -->
+<script type="text/javascript">
+$(function(){
+   var handle = $("#custom-handle")
+   $("#slider").slider({
+      min: 1900,
+      max: 2018,
+      create: function() {
+         handle.text($(this).slider("value"))
+      },
+      slide: function(event, ui) {
+         handle.text(ui.value)
+      }
    })
-   </script>
+   $("#btnDraw").click(function(){
+      drawEarthquakes($("#slider").slider("value"))
+   })
+})
+</script>
 </head>
 
 <body>
