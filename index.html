@@ -154,7 +154,7 @@ function drawEarthquakes(startYear) {
    })
 
    // remove existing earthquakes
-   svg.selectAll("earthquake").remove()
+   svg.selectAll("circle").remove()
 
    var earthquakeCircles = svg.selectAll("earthquake")
       .data(filteredEarthquakes)
