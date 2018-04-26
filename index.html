@@ -1,28 +1,24 @@
 <!--
-https://bl.ocks.org/mbostock/4699541
-https://bl.ocks.org/mbostock/4090848
-https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c
-https://raw.githubusercontent.com/deldersveld/topojson/master/countries/us-states/OK-40-oklahoma-counties.json
-https://bl.ocks.org/mbostock/raw/5663666/
-http://bl.ocks.org/darrenjaworski/5874214 ***
-https://bl.ocks.org/gka/f2aabf4a516e16a5190f25fd1923406f ***
-https://beta.observablehq.com/@mbostock/d3-choropleth
-https://beta.observablehq.com/@mbostock/d3-bubble-map
+general references:
+http://bl.ocks.org/darrenjaworski/5874214
 http://duspviz.mit.edu/d3-workshop/mapping-data-with-d3/
-http://bl.ocks.org/phil-pedruco/7745589 ***
+http://bl.ocks.org/phil-pedruco/7745589
 https://anthonyskelton.com/2016/d3-js-earthquake-visualizations/
-http://bl.ocks.org/d3noob/9267535
-http://datamaps.github.io/
-http://pnavarrc.github.io/talk-d3-charts/earthquake.html
 
 tool to find coordinates:
 https://mynasadata.larc.nasa.gov/latitudelongitude-finder/
 
 download cencus tracts:
-https://www.census.gov/cgi-bin/geo/shapefiles/index.php
+https://www.census.gov/geo/maps-data/data/tiger-line.html
 
-convert census tracts to GeoJSON
+convert census tracts to GeoJSON:
 https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c
+
+earthquake data:
+https://earthquake.usgs.gov/earthquakes/search/
+
+oklahoma injection well locations:
+http://www.occeweb.com/og/All_UIC_Wells.xls
 -->
 <!doctype html>
 
@@ -33,39 +29,39 @@ https://medium.com/@mbostock/command-line-cartography-part-1-897aa8f8ca2c
    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
    <link
-      rel="stylesheet"
-      href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+   rel="stylesheet"
+   href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
    <style>
-      #custom-handle{
-        width: 3em;
-        height: 1.6em;
-        top: 50%;
-        margin-top: -.8em;
-        text-align: center;
-        line-height: 1.6em;
-      }
-      #slider{
-         width: 960px;
-      }
+   #custom-handle{
+      width: 3em;
+      height: 1.6em;
+      top: 50%;
+      margin-top: -.8em;
+      text-align: center;
+      line-height: 1.6em;
+   }
+   #slider{
+      width: 960px;
+   }
    </style>
 
    <!-- create slider -->
    <script type="text/javascript">
    $(function(){
-     var handle = $("#custom-handle")
-     $("#slider").slider({
-       min: 1900,
-       max: 2018,
-       create: function() {
-         handle.text($(this).slider("value"))
-       },
-       slide: function(event, ui) {
-         handle.text(ui.value)
-       }
-     })
-     $("#btnDraw").click(function(){
-        drawEarthquakes($("#slider").slider("value"))
-     })
+      var handle = $("#custom-handle")
+      $("#slider").slider({
+         min: 1900,
+         max: 2018,
+         create: function() {
+            handle.text($(this).slider("value"))
+         },
+         slide: function(event, ui) {
+            handle.text(ui.value)
+         }
+      })
+      $("#btnDraw").click(function(){
+         drawEarthquakes($("#slider").slider("value"))
+      })
    })
    </script>
 </head>
@@ -88,19 +84,23 @@ var svgWidth  = 960
 var svgHeight = 500
 var padding   = 20
 var state, earthquakes, wells, point, magnitude, startYear, filteredEarthquakes
+
 // formatter for date objects
 var formatDate = d3.timeFormat("%Y")
+
 // color scale for earthquakes
 var color = d3.scaleLinear()
-              .domain([3, 6])
-              .range(["yellow", "red"])
+.domain([3, 6])
+.range(["yellow", "red"])
+
 // create SVG element
 var svg = d3.select("#chart")
-            .append("svg")
-            .attr("width", svgWidth)
-            .attr("height", svgHeight)
-            .attr("fill","white")
+.append("svg")
+.attr("width", svgWidth)
+.attr("height", svgHeight)
+.attr("fill","white")
 
+// preload data to prevent drawing before data is finished loading
 d3.queue()
 .defer(d3.json, 'data/ok.json')
 .defer(d3.csv,  'data/ok_earthquakes.csv')
@@ -111,6 +111,7 @@ function dataLoaded(error, a, b, c) {
    state       = a
    earthquakes = b
    wells       = c
+
    // convert origin time from datetime to year using formatDate()
    // we only need the year for filtering
    earthquakes = earthquakes.map(function(d){
@@ -134,17 +135,19 @@ function dataLoaded(error, a, b, c) {
 
    // define projection
    projection = d3.geoMercator()
-                  .fitSize([svgWidth,svgHeight],state)
+   .fitSize([svgWidth,svgHeight],state)
+
    // define path generator
    var path = d3.geoPath()
-                .projection(projection)
+   .projection(projection)
+
    // draw state (bind data and create one path per GeoJSON feature)
    svg.selectAll("path")
-      .data(state.features)
-      .enter()
-      .append("path")
-      .attr("d", path)
-      .attr("stroke","black")
+   .data(state.features)
+   .enter()
+   .append("path")
+   .attr("d", path)
+   .attr("stroke","black")
 } // end dataLoaded()
 
 function drawEarthquakes(startYear) {
@@ -157,42 +160,42 @@ function drawEarthquakes(startYear) {
    svg.selectAll("circle").remove()
 
    var earthquakeCircles = svg.selectAll("earthquake")
-      .data(filteredEarthquakes)
-      .enter()
-      .append("circle")
-      .attr("cx", function(d){
-         return projection([+d.longitude,+d.latitude])[0]
-      })
-      .attr("cy", function(d){
-         return projection([+d.longitude,+d.latitude])[1]
-      })
-      .attr("r", function(d){
-         // scale magnitudes exponentially to provide
-         // noticeable differentiation
-         return Math.pow(+d.prefmag,2.2)
-      })
-      .attr("stroke", "gray")
-      .attr("fill", function(d){
-         return color(+d.prefmag)
-      })
+   .data(filteredEarthquakes)
+   .enter()
+   .append("circle")
+   .attr("cx", function(d){
+      return projection([+d.longitude,+d.latitude])[0]
+   })
+   .attr("cy", function(d){
+      return projection([+d.longitude,+d.latitude])[1]
+   })
+   .attr("r", function(d){
+      // scale magnitudes exponentially to provide
+      // noticeable differentiation
+      return Math.pow(+d.prefmag,2.2)
+   })
+   .attr("stroke", "gray")
+   .attr("fill", function(d){
+      return color(+d.prefmag)
+   })
 
-      // draw wells
-      var wellCircles = svg.selectAll("well")
-         .data(wells)
-         .enter()
-         .append("circle")
-         .attr("cx", function(d) {
-            // preceding + converts string to int
-            point = [+d.LONG,+d.LAT]
-            return projection(point)[0]
-         })
-         .attr("cy", function(d) {
-            // preceding + converts string to int
-            point = [+d.LONG,+d.LAT]
-            return projection(point)[1]
-         })
-         .attr("r", "1px")
-         .attr("fill", "green")
+   // draw wells
+   var wellCircles = svg.selectAll("well")
+   .data(wells)
+   .enter()
+   .append("circle")
+   .attr("cx", function(d) {
+      // preceding + converts string to int
+      point = [+d.LONG,+d.LAT]
+      return projection(point)[0]
+   })
+   .attr("cy", function(d) {
+      // preceding + converts string to int
+      point = [+d.LONG,+d.LAT]
+      return projection(point)[1]
+   })
+   .attr("r", "1px")
+   .attr("fill", "green")
 } // end drawEarthquakes()
 </script>
 </html>
