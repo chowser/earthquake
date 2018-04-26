@@ -153,6 +153,9 @@ function drawEarthquakes(startYear) {
       return +d.origintime >= startYear
    })
 
+   // remove existing earthquakes
+   svg.selectAll("earthquake").remove()
+
    var earthquakeCircles = svg.selectAll("earthquake")
       .data(filteredEarthquakes)
       .enter()
@@ -172,9 +175,6 @@ function drawEarthquakes(startYear) {
       .attr("fill", function(d){
          return color(+d.prefmag)
       })
-      .merge()
-
-      earthquakeCircles.exit().remove()
 
       // draw wells
       var wellCircles = svg.selectAll("well")
@@ -193,9 +193,6 @@ function drawEarthquakes(startYear) {
          })
          .attr("r", "1px")
          .attr("fill", "green")
-         .merge()
-
-      wellCircles.exit().remove()
 } // end drawEarthquakes()
 </script>
 </html>
